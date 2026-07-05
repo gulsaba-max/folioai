@@ -40,13 +40,13 @@ Built using **Google Agent Development Kit (ADK)**, **Gemini**, **Model Context 
 
 ## Key Highlights
 
-- 🤖 Multi-Agent Architecture
-- 📄 AI Resume Parsing
-- ✨ AI Content Enhancement
-- 🎨 Intelligent Portfolio Design
-- 🧠 AI Thinking Panel
-- 🎛 Mission Control Dashboard
-- 📊 AI Generation Report
-- 📱 Fully Responsive
-- ⚡ Modern SaaS UI
-- 🔒 Secure Processing
+- Multi-Agent Architecture
+- AI Resume Parsing
+- AI Content Enhancement
+- Intelligent Portfolio Design
+- AI Thinking Panel
+- Mission Control Dashboard
+- AI Generation Report
+- Fully Responsive
+- Modern SaaS UI
+- Secure Processing
