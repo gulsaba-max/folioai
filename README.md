@@ -644,3 +644,281 @@ FolioAI is optimized for:
 - Tablet
 
 Providing a consistent experience across all devices.
+
+---
+
+# Installation & Getting Started
+
+Follow these steps to set up and run FolioAI on your local machine.
+
+## Prerequisites
+
+Before you begin, make sure you have the following installed:
+
+- Node.js (v18 or later)
+- npm or yarn
+- Git
+- A Google Gemini API Key
+- Google ADK
+- MCP Server (if applicable)
+
+---
+
+## Clone the Repository
+
+```bash
+git clone https://github.com/gulsaba-max/folioai.git
+
+cd folioai
+```
+
+---
+
+## Install Dependencies
+
+Using npm:
+
+```bash
+npm install
+```
+
+Or using yarn:
+
+```bash
+yarn install
+```
+
+---
+
+## Configure Environment Variables
+
+Create a `.env.local` file in the project root and add your API keys:
+
+```env
+GOOGLE_API_KEY=your_google_api_key
+
+GEMINI_API_KEY=your_gemini_api_key
+
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+>  **Never commit your API keys to GitHub.**
+
+---
+
+## Run the Development Server
+
+Using npm:
+
+```bash
+npm run dev
+```
+
+Or using yarn:
+
+```bash
+yarn dev
+```
+
+Open your browser and visit:
+
+```
+http://localhost:3000
+```
+
+---
+
+## Build for Production
+
+```bash
+npm run build
+```
+
+Start the production server:
+
+```bash
+npm start
+```
+
+---
+
+# Project Structure
+
+```
+folioai/
+│
+├── app/
+├── components/
+├── lib/
+├── services/
+├── public/
+│
+├── docs/
+│   ├── architecture/
+│   ├── diagrams/
+│   ├── screenshots/
+│   └── demo/
+│
+├── README.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── .env.example
+├── package.json
+└── tsconfig.json
+```
+
+---
+
+# Testing the Application
+
+1. Start the development server.
+2. Open `http://localhost:3000`.
+3. Sign in or create an account.
+4. Upload your resume or enter your information manually.
+5. Watch the AI Mission Control execute the multi-agent workflow.
+6. Review the AI Thinking panel and Generation Report.
+7. Preview and export your generated portfolio.
+
+---
+
+# Deployment
+
+FolioAI can be deployed using platforms such as:
+
+- ▲ Vercel
+- Netlify
+- Docker
+- Self-hosted Node.js server
+
+For the best experience, we recommend deploying with **Vercel**, which offers seamless integration with Next.js.
+
+---
+
+# Security Notes
+
+To keep your application secure:
+
+- Store API keys in environment variables.
+- Never expose secrets in the frontend.
+- Never commit `.env.local` to GitHub.
+- Use HTTPS in production.
+- Rotate API keys periodically.
+
+---
+---
+
+# Team
+
+FolioAI was developed as part of the **Google AI Agents Capstone Hackathon**.
+
+## Team Name
+
+**Neural Nexus**
+
+## Team Members
+
+| Name | Role |
+|------|------|
+| **Saba Gul** | AI Engineer • Full Stack Developer • Multi-Agent System Development |
+| **Parkha Kashaf Zeb** | AI Engineer • UI/UX Design • Agent Workflow & Testing |
+
+Together, we designed and developed FolioAI to demonstrate how collaborative AI agents can automate portfolio creation while providing transparency, scalability, and an exceptional user experience.
+
+---
+
+# Roadmap
+
+We envision FolioAI becoming a complete AI-powered career platform.
+
+### Completed
+
+- Resume Upload
+- Manual Information Entry
+- Multi-Agent Workflow
+- Google ADK Integration
+- MCP Integration
+- AI Mission Control
+- AI Thinking Panel
+- AI Generation Report
+- Responsive Portfolio Generator
+- Modern SaaS Interface
+
+---
+
+###  Coming Soon
+
+- Portfolio Theme Marketplace
+- AI Resume Builder
+- AI Interview Preparation
+- GitHub Repository Import
+- LinkedIn Profile Import
+- One-Click Portfolio Deployment
+- Custom Domain Support
+- Team Collaboration
+- Portfolio Analytics Dashboard
+- Recruiter Dashboard
+- Multi-language Support
+- AI Career Recommendations
+
+---
+
+#  Contributing
+
+Contributions are welcome!
+
+If you'd like to improve FolioAI:
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push your branch
+5. Open a Pull Request
+
+Please ensure your code follows the project's coding standards and includes appropriate documentation.
+
+---
+
+# License
+
+This project is licensed under the **MIT License**.
+
+See the `LICENSE` file for more details.
+
+---
+
+# Acknowledgements
+
+Special thanks to:
+
+- Google AI
+- Google Agent Development Kit (ADK)
+- Gemini
+- Model Context Protocol (MCP)
+- Antigravity
+- Next.js
+- Tailwind CSS
+- The open-source community
+
+Their tools and technologies made FolioAI possible.
+
+---
+
+# Support
+
+If you found FolioAI useful, please consider giving this repository a ⭐ on GitHub.
+
+Your support helps us continue improving the project and encourages future development.
+
+---
+
+<p align="center">
+
+### FolioAI
+
+**Powered by AI Agents**
+
+Transforming resumes into professional portfolios through collaborative AI.
+
+Made by **Saba Gul** & **Parkha Kashaf Zeb**
+
+</p>
