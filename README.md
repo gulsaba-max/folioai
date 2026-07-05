@@ -813,7 +813,7 @@ FolioAI was developed as part of the **Google AI Agents Capstone Hackathon**.
 
 ## Team Name
 
-**Vector Mind**
+**Vector Minds**
 
 ## Team Members
 
