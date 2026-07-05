@@ -1,20 +1,52 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+<p align="center">
+  <img src="docs/demo/banner.png" alt="FolioAI Banner" width="100%">
+</p>
 
-# Run and deploy your AI Studio app
+<h1 align="center">🚀 FolioAI</h1>
 
-This contains everything you need to run your app locally.
+<p align="center">
+Transform Your Resume into a Professional Portfolio Website with AI Agents
+</p>
 
-View your app in AI Studio: https://ai.studio/apps/9be0c75f-8076-4cba-96d0-71b3336b5470
+<p align="center">
 
-## Run Locally
+![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
 
-**Prerequisites:**  Node.js
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?logo=tailwindcss&logoColor=white)
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+![Google ADK](https://img.shields.io/badge/Google-ADK-blue)
+
+![Gemini](https://img.shields.io/badge/Gemini-AI-orange)
+
+![MCP](https://img.shields.io/badge/MCP-Integrated-green)
+
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+</p>
+
+---
+
+## 🌟 Overview
+
+**FolioAI** is an AI-powered **multi-agent portfolio generation platform** that transforms resumes into beautiful, responsive, and production-ready portfolio websites.
+
+Instead of relying on a single AI prompt, FolioAI orchestrates multiple specialized AI agents that collaborate to analyze resumes, enhance content, design personalized portfolios, and prepare them for deployment.
+
+Built using **Google Agent Development Kit (ADK)**, **Gemini**, **Model Context Protocol (MCP)**, **Next.js**, and **Tailwind CSS**, FolioAI demonstrates how intelligent agent collaboration can automate professional portfolio creation.
+
+---
+
+## ✨ Key Highlights
+
+- 🤖 Multi-Agent Architecture
+- 📄 AI Resume Parsing
+- ✨ AI Content Enhancement
+- 🎨 Intelligent Portfolio Design
+- 🧠 AI Thinking Panel
+- 🎛 Mission Control Dashboard
+- 📊 AI Generation Report
+- 📱 Fully Responsive
+- ⚡ Modern SaaS UI
+- 🔒 Secure Processing
