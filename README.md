@@ -2,7 +2,7 @@
   <img src="docs/demo/banner.png" alt="FolioAI Banner" width="100%">
 </p>
 
-<h1 align="center">🚀 FolioAI</h1>
+<h1 align="center"> FolioAI</h1>
 
 <p align="center">
 Transform Your Resume into a Professional Portfolio Website with AI Agents
@@ -28,7 +28,7 @@ Transform Your Resume into a Professional Portfolio Website with AI Agents
 
 ---
 
-## 🌟 Overview
+## Overview
 
 **FolioAI** is an AI-powered **multi-agent portfolio generation platform** that transforms resumes into beautiful, responsive, and production-ready portfolio websites.
 
@@ -38,7 +38,7 @@ Built using **Google Agent Development Kit (ADK)**, **Gemini**, **Model Context 
 
 ---
 
-## ✨ Key Highlights
+## Key Highlights
 
 - 🤖 Multi-Agent Architecture
 - 📄 AI Resume Parsing
