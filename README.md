@@ -12,7 +12,7 @@ Transform Your Resume into a Professional Portfolio Website with AI Agents
 
 | Category | Technology |
 |----------|------------|
-| Frontend | Next.js 15 |
+| Frontend | vite       |
 | Language | TypeScript |
 | Styling | Tailwind CSS |
 | AI Model | Gemini |
