@@ -265,20 +265,22 @@ export default function LoadingScreen({ isFinished = false, onView, onDownload, 
 
                     {pipeline.map((agent, i) => {
                       const status = getAgentStatus(i);
+                      const cls = status === 'completed'
+                        ? 'bg-green-100 border-2 border-green-500 text-green-600'
+                        : status === 'running'
+                          ? `${palette.soft} border-2 ${palette.border} ${palette.text}`
+                          : 'bg-gray-50 border-2 border-gray-200 text-gray-400';
                       return (
                         <div key={agent.id} className="flex items-start gap-4 group">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 z-10 transition-colors duration-300
-                             ${status === 'completed' ? 'bg-green-100 border-2 border-green-500 text-green-600' : 
-                               status === 'running' ? `${palette.soft} border-2 ${palette.border} ${palette.text}` : 
-                               'bg-gray-50 border-2 border-gray-200 text-gray-400'}`}>
-                            {status === 'completed' ? <Check className="w-4 h-4" /> : 
-                             status === 'running' ? <Loader2 className="w-4 h-4 animate-spin" /> : 
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 z-10 transition-colors duration-300 ${cls}`}>
+                            {status === 'completed' ? <Check className="w-4 h-4" /> :
+                             status === 'running' ? <Loader2 className="w-4 h-4 animate-spin" /> :
                              <agent.icon className="w-4 h-4" />}
                           </div>
                           <div className="pt-1">
                             <p className={`font-semibold text-sm ${status === 'waiting' ? 'text-gray-400' : 'text-gray-900'}`}>{agent.name}</p>
                             {status === 'running' && (
-                              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-xs text-primary mt-1 font-medium flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin"/> Processing...</motion.p>
+                              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-xs text-primary mt-1 font-medium flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin"/> Processing...</motion.p>
                             )}
                           </div>
                         </div>
