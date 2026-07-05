@@ -47,10 +47,11 @@ interface DashboardProps {
   user: any; activePortfolio: Portfolio | null; onUpdatePortfolio: (portfolio: Portfolio) => void;
   onPortfolioReady?: () => void; onLogout: () => void;
   activeTab?: string; onTabChange?: (tab: string) => void;
+  isDemo?: boolean;
 }
 
 export default function Dashboard(props: DashboardProps) {
-  const { user, activePortfolio, onUpdatePortfolio, onPortfolioReady, onLogout, activeTab: externalActiveTab, onTabChange } = props;
+  const { user, activePortfolio, onUpdatePortfolio, onPortfolioReady, onLogout, activeTab: externalActiveTab, onTabChange, isDemo } = props;
   const { toast } = useToast();
   const [internalTab, setInternalTab] = useState<string>('generate');
 
@@ -213,6 +214,10 @@ export default function Dashboard(props: DashboardProps) {
 
   const handleSavePortfolio = async () => {
     if (!activePortfolio) return;
+    if (isDemo) {
+      toast('warning', 'Demo Mode', 'Saving and publishing are disabled in demo mode.');
+      return;
+    }
     setSaving(true); setSaveStatus("Publishing changes...");
     try {
       const response = await fetch("/api/portfolio/save", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ portfolio: activePortfolio }) });
@@ -312,9 +317,14 @@ export default function Dashboard(props: DashboardProps) {
               <motion.div key="onboarding" variants={stagger} initial="hidden" animate="visible" className="space-y-12">
                 {/* Hero Section */}
                 <motion.div variants={fadeUp} className="text-center max-w-2xl mx-auto mb-16">
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium mb-6">
-                    <Sparkles className="w-3.5 h-3.5" /> FolioAI Engine 2.0
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium mb-6">
+                  <Sparkles className="w-3.5 h-3.5" /> FolioAI Engine 2.0
+                </div>
+                {isDemo && (
+                  <div className="mb-4 px-4 py-3 rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold uppercase tracking-wider text-center">
+                    Demo Mode – Changes are not saved.
                   </div>
+                )}
                   <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-text-main mb-6">
                     Craft your perfect portfolio in seconds.
                   </h1>
@@ -670,13 +680,17 @@ export default function Dashboard(props: DashboardProps) {
                         <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={() => setAiAssistantOpen(true)} className="btn-secondary text-sm px-4 py-2 flex items-center gap-2">
                           <Bot className="w-4 h-4" /> Ask AI
                         </motion.button>
-                        <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={() => { const url = `${window.location.origin}/p/${activePortfolio.slug}`; navigator.clipboard.writeText(url); toast('success', 'Link Copied!', 'Portfolio URL has been copied to clipboard.'); }} className="btn-secondary text-sm px-4 py-2 flex items-center gap-2">
-                          <Globe className="w-4 h-4" /> Copy Link
-                        </motion.button>
-                        <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSavePortfolio} disabled={saving} className="btn-primary text-sm px-4 py-2 flex items-center gap-2">
-                          {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <ArrowUpRight className="w-4 h-4" />}
-                          {saving ? 'Saving...' : 'Publish'}
-                        </motion.button>
+                        {!isDemo && (
+                          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={() => { const url = `${window.location.origin}/p/${activePortfolio.slug}`; navigator.clipboard.writeText(url); toast('success', 'Link Copied!', 'Portfolio URL has been copied to clipboard.'); }} className="btn-secondary text-sm px-4 py-2 flex items-center gap-2">
+                            <Globe className="w-4 h-4" /> Copy Link
+                          </motion.button>
+                        )}
+                        {!isDemo && (
+                          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSavePortfolio} disabled={saving} className="btn-primary text-sm px-4 py-2 flex items-center gap-2">
+                            {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <ArrowUpRight className="w-4 h-4" />}
+                            {saving ? 'Saving...' : 'Publish'}
+                          </motion.button>
+                        )}
                       </div>
                     </motion.div>
 
@@ -762,11 +776,15 @@ export default function Dashboard(props: DashboardProps) {
                           <h3 className="font-bold text-lg text-text-main">{activePortfolio.name}</h3>
                           <p className="text-sm text-text-muted capitalize">{activePortfolio.designSettings?.theme} theme Â· {activePortfolio.designSettings?.mode} mode</p>
                         </div>
-                        <div className="flex gap-2 pt-2 border-t border-border-subtle">
-                          <button onClick={() => setActiveTab('dashboard')} className="btn-secondary flex-1 flex items-center justify-center gap-1.5 text-sm py-2 px-3"><Edit3 className="w-3.5 h-3.5" />Edit</button>
-                          <button onClick={() => { const url = `${window.location.origin}/p/${activePortfolio.slug}`; navigator.clipboard.writeText(url); toast('success', 'Link Copied!', 'Portfolio URL copied to clipboard.'); }} className="btn-secondary flex-1 flex items-center justify-center gap-1.5 text-sm py-2 px-3"><Globe className="w-3.5 h-3.5" />Copy Link</button>
-                          <button onClick={() => handleSavePortfolio()} className="btn-primary flex-1 flex items-center justify-center gap-1.5 text-sm py-2 px-3"><ArrowUpRight className="w-3.5 h-3.5" />Publish</button>
-                        </div>
+                         <div className={`flex gap-2 pt-2 border-t border-border-subtle ${isDemo ? 'opacity-50 pointer-events-none' : ''}`}>
+                           <button onClick={() => setActiveTab('dashboard')} className="btn-secondary flex-1 flex items-center justify-center gap-1.5 text-sm py-2 px-3"><Edit3 className="w-3.5 h-3.5" />Edit</button>
+                           {!isDemo && (
+                             <button onClick={() => { const url = `${window.location.origin}/p/${activePortfolio.slug}`; navigator.clipboard.writeText(url); toast('success', 'Link Copied!', 'Portfolio URL copied to clipboard.'); }} className="btn-secondary flex-1 flex items-center justify-center gap-1.5 text-sm py-2 px-3"><Globe className="w-3.5 h-3.5" />Copy Link</button>
+                           )}
+                           {!isDemo && (
+                             <button onClick={() => handleSavePortfolio()} className="btn-primary flex-1 flex items-center justify-center gap-1.5 text-sm py-2 px-3"><ArrowUpRight className="w-3.5 h-3.5" />Publish</button>
+                           )}
+                         </div>
                       </div>
                     </div>
                   </div>

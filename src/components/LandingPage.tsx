@@ -2,7 +2,7 @@ import React from "react";
 import { 
   Upload, Layout, MonitorSmartphone, Settings2, Github,
   ArrowRight, FileText, Bot, Rocket, Search, Edit3, Palette,
-  CheckCircle2, Loader2, Sparkles, Zap, Shield, Globe
+  CheckCircle2, Loader2, Sparkles, Zap, Shield, Globe, Play
 } from "lucide-react";
 import { CinematicHeroPreview } from "./CinematicHeroPreview";
 import { useToast } from "./Toast";
@@ -10,9 +10,10 @@ import { useToast } from "./Toast";
 interface LandingPageProps {
   onGetStarted: () => void;
   onOpenPanel?: (panel: any) => void;
+  onTryDemo?: () => void;
 }
 
-export default function LandingPage({ onGetStarted, onOpenPanel }: LandingPageProps) {
+export default function LandingPage({ onGetStarted, onOpenPanel, onTryDemo }: LandingPageProps) {
   const { toast } = useToast();
   return (
     <div className="bg-bg-base font-sans relative text-text-main selection:bg-primary/20 selection:text-primary overflow-hidden">
@@ -42,11 +43,16 @@ export default function LandingPage({ onGetStarted, onOpenPanel }: LandingPagePr
              Upload your resume or enter your details manually. Our multi-agent AI system generates a production-ready, beautiful portfolio website in under 5 minutes.
            </p>
            
-            <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-20 animate-slide-up" style={{animationDelay: '0.4s'}}>
-              <button onClick={onGetStarted} className="btn-primary w-full sm:w-auto text-lg px-8 py-4 flex items-center justify-center gap-2 group">
-                Start Generating <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
+             <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-20 animate-slide-up" style={{animationDelay: '0.4s'}}>
+               <button onClick={onGetStarted} className="btn-primary w-full sm:w-auto text-lg px-8 py-4 flex items-center justify-center gap-2 group">
+                 Start Generating <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+               </button>
+               {onTryDemo && (
+                 <button onClick={onTryDemo} className="btn-secondary w-full sm:w-auto text-lg px-8 py-4 flex items-center justify-center gap-2">
+                   <Play className="w-5 h-5" /> Try Demo
+                 </button>
+               )}
+             </div>
 
 
            {/* CINEMATIC HERO PREVIEW */}
