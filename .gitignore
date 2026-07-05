@@ -1,0 +1,12 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+# Dev scripts
+*.py
+*.cjs
+metadata.json
+data/db.json

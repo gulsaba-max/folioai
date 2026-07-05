@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-base: #f9f7f4;
+  --color-bg-card: #ffffff;
+
+  --color-primary: #d4a574;
+  --color-primary-hover: #b88a5c;
+
+  --color-secondary: #8b7d6b;
+
+  --color-border-subtle: #e6e0d8;
+  --color-border-accent: #8b7d6b;
+
+  --color-text-main: #2c3e50;
+  --color-text-muted: #50667a;
+
+  --color-success-main: #16A34A;
+  --color-warning-main: #F59E0B;
+  --color-error-main: #DC2626;
+
+  --font-sans: "Lora", serif;
+  --font-heading: "Playfair Display", serif;
+  --font-accent: "IBM Plex Sans", sans-serif;
+
+  --animate-fade-in: fade-in 0.5s ease-out;
+  --animate-slide-up: slide-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  --animate-scale-in: scale-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  --animate-page-enter: page-enter 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  --animate-shimmer: shimmer 2s infinite linear;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scale-in {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes page-enter {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+  }
+}
+
+html.dark {
+  --color-bg-base: #0f172a;
+  --color-bg-card: #1e293b;
+
+  --color-primary: #d4a574;
+  --color-primary-hover: #b88a5c;
+
+  --color-secondary: #8b7d6b;
+
+  --color-border-subtle: #334155;
+  --color-border-accent: #8b7d6b;
+
+  --color-text-main: #f1f5f9;
+  --color-text-muted: #94a3b8;
+
+  --color-success-main: #16A34A;
+  --color-warning-main: #F59E0B;
+  --color-error-main: #DC2626;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-base text-text-main font-sans antialiased selection:bg-primary/20 selection:text-primary;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-bg-card border border-border-subtle rounded-2xl shadow-sm transition-all duration-300;
+  }
+
+  .glass-card-hover {
+    @apply hover:shadow-lg hover:border-border-accent hover:-translate-y-1 hover:scale-[1.01] cursor-pointer;
+  }
+
+  .skeleton {
+    @apply bg-gray-200 animate-pulse rounded;
+    background: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite linear;
+  }
+
+  .btn-primary {
+    @apply bg-primary hover:bg-primary-hover text-white font-medium px-5 py-2.5 rounded-xl transition-all duration-300 cursor-pointer flex items-center justify-center gap-2
+           shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:scale-[1.02] active:scale-95 active:shadow-sm
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none disabled:hover:scale-100 disabled:active:scale-100;
+  }
+
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-50 text-text-main border border-border-subtle font-medium px-5 py-2.5 rounded-xl transition-all duration-300 cursor-pointer flex items-center justify-center gap-2
+           shadow-sm hover:shadow-md hover:-translate-y-0.5 hover:scale-[1.02] active:scale-95 active:shadow-sm;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-white rounded-xl border border-border-subtle 
+           focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 
+           transition-all duration-300 text-text-main placeholder:text-text-muted/60;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
