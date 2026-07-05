@@ -469,39 +469,53 @@ export default function Dashboard(props: DashboardProps) {
                                </div>
                              )}
 
-                            {manualTab === 'experience' && (
-                              <div className="space-y-4">
-                                {manualExperience.map((exp, idx) => (
-                                  <div key={idx} className="p-4 border border-border-subtle rounded-xl relative group">
-                                    <button type="button" onClick={() => setManualExperience(prev => prev.filter((_, i) => i !== idx))} className="absolute top-2 right-2 p-1.5 text-red-500 hover:bg-red-50 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-                                      <Trash2 className="w-4 h-4" />
-                                    </button>
-                                    <h4 className="font-medium text-sm mb-1">{exp.role || "Role"} at {exp.company || "Company"}</h4>
-                                    <p className="text-xs text-text-muted">{exp.startDate} - {exp.endDate}</p>
-                                  </div>
-                                ))}
-                                <button type="button" onClick={() => setManualExperience([...manualExperience, { id: `exp_${Date.now()}`, role: '', company: '', startDate: '', endDate: '', description: '' }])} className="w-full py-4 border-2 border-dashed border-border-subtle rounded-xl text-sm font-medium text-text-muted hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
-                                  <Plus className="w-4 h-4" /> Add Experience
-                                </button>
-                              </div>
-                            )}
+                             {manualTab === 'experience' && (
+                               <div className="space-y-4">
+                                 {manualExperience.map((exp, idx) => (
+                                   <div key={exp.id || idx} className="p-4 border border-border-subtle rounded-xl relative group space-y-3">
+                                     <button type="button" onClick={() => setManualExperience(prev => prev.filter((_, i) => i !== idx))} className="absolute top-2 right-2 p-1.5 text-red-500 hover:bg-red-50 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+                                       <Trash2 className="w-4 h-4" />
+                                     </button>
+                                     <div className="grid grid-cols-1 gap-3">
+                                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                         <input type="text" value={exp.role} onChange={(e) => setManualExperience(prev => prev.map((item, i) => i === idx ? { ...item, role: e.target.value } : item))} placeholder="Role" className="w-full px-3 py-2 text-sm border border-border-subtle rounded-lg bg-white focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none" />
+                                         <input type="text" value={exp.company} onChange={(e) => setManualExperience(prev => prev.map((item, i) => i === idx ? { ...item, company: e.target.value } : item))} placeholder="Company" className="w-full px-3 py-2 text-sm border border-border-subtle rounded-lg bg-white focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none" />
+                                       </div>
+                                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                         <input type="text" value={exp.startDate} onChange={(e) => setManualExperience(prev => prev.map((item, i) => i === idx ? { ...item, startDate: e.target.value } : item))} placeholder="Start date (e.g. 2021-06)" className="w-full px-3 py-2 text-sm border border-border-subtle rounded-lg bg-white focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none" />
+                                         <input type="text" value={exp.endDate} onChange={(e) => setManualExperience(prev => prev.map((item, i) => i === idx ? { ...item, endDate: e.target.value } : item))} placeholder="End date (e.g. Present)" className="w-full px-3 py-2 text-sm border border-border-subtle rounded-lg bg-white focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none" />
+                                       </div>
+                                       <textarea value={exp.description} onChange={(e) => setManualExperience(prev => prev.map((item, i) => i === idx ? { ...item, description: e.target.value } : item))} placeholder="Description, achievements, impact..." rows={3} className="w-full px-3 py-2 text-sm border border-border-subtle rounded-lg bg-white focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none resize-none" />
+                                     </div>
+                                   </div>
+                                 ))}
+                                 <button type="button" onClick={() => setManualExperience([...manualExperience, { id: `exp_${Date.now()}`, role: '', company: '', startDate: '', endDate: '', description: '' }])} className="w-full py-4 border-2 border-dashed border-border-subtle rounded-xl text-sm font-medium text-text-muted hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
+                                   <Plus className="w-4 h-4" /> Add Experience
+                                 </button>
+                               </div>
+                             )}
 
-                            {manualTab === 'certifications' && (
-                              <div className="space-y-4">
-                                {manualCertifications.map((cert, idx) => (
-                                  <div key={idx} className="p-4 border border-border-subtle rounded-xl relative group">
-                                    <button type="button" onClick={() => setManualCertifications(prev => prev.filter((_, i) => i !== idx))} className="absolute top-2 right-2 p-1.5 text-red-500 hover:bg-red-50 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-                                      <Trash2 className="w-4 h-4" />
-                                    </button>
-                                    <h4 className="font-medium text-sm mb-1">{cert.name || "Certification Name"}</h4>
-                                    <p className="text-xs text-text-muted">{cert.issuer} â€¢ {cert.date}</p>
-                                  </div>
-                                ))}
-                                <button type="button" onClick={() => setManualCertifications([...manualCertifications, { id: `cert_${Date.now()}`, name: '', issuer: '', date: '' }])} className="w-full py-4 border-2 border-dashed border-border-subtle rounded-xl text-sm font-medium text-text-muted hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
-                                  <Plus className="w-4 h-4" /> Add Certification
-                                </button>
-                              </div>
-                            )}
+                             {manualTab === 'certifications' && (
+                               <div className="space-y-4">
+                                 {manualCertifications.map((cert, idx) => (
+                                   <div key={cert.id || idx} className="p-4 border border-border-subtle rounded-xl relative group space-y-3">
+                                     <button type="button" onClick={() => setManualCertifications(prev => prev.filter((_, i) => i !== idx))} className="absolute top-2 right-2 p-1.5 text-red-500 hover:bg-red-50 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+                                       <Trash2 className="w-4 h-4" />
+                                     </button>
+                                     <div className="grid grid-cols-1 gap-3">
+                                       <input type="text" value={cert.name} onChange={(e) => setManualCertifications(prev => prev.map((item, i) => i === idx ? { ...item, name: e.target.value } : item))} placeholder="Certification name" className="w-full px-3 py-2 text-sm border border-border-subtle rounded-lg bg-white focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none" />
+                                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                         <input type="text" value={cert.issuer} onChange={(e) => setManualCertifications(prev => prev.map((item, i) => i === idx ? { ...item, issuer: e.target.value } : item))} placeholder="Issuer" className="w-full px-3 py-2 text-sm border border-border-subtle rounded-lg bg-white focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none" />
+                                         <input type="text" value={cert.date} onChange={(e) => setManualCertifications(prev => prev.map((item, i) => i === idx ? { ...item, date: e.target.value } : item))} placeholder="Date (e.g. 2024-06)" className="w-full px-3 py-2 text-sm border border-border-subtle rounded-lg bg-white focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none" />
+                                       </div>
+                                     </div>
+                                   </div>
+                                 ))}
+                                 <button type="button" onClick={() => setManualCertifications([...manualCertifications, { id: `cert_${Date.now()}`, name: '', issuer: '', date: '' }])} className="w-full py-4 border-2 border-dashed border-border-subtle rounded-xl text-sm font-medium text-text-muted hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
+                                   <Plus className="w-4 h-4" /> Add Certification
+                                 </button>
+                               </div>
+                             )}
 
                           </div>
                         </div>
@@ -614,18 +628,27 @@ export default function Dashboard(props: DashboardProps) {
                         <div className="space-y-4">
                           <label className="text-sm font-medium text-text-main">Industry Profile</label>
                           <div className="grid grid-cols-2 gap-2">
-                            {([
-                              { id: 'tech', label: 'Technology', icon: 'ðŸ’»' },
-                              { id: 'creative', label: 'Creative', icon: 'ðŸŽ¨' },
-                              { id: 'business', label: 'Business', icon: 'ðŸ“Š' },
-                              { id: 'writing', label: 'Writing', icon: 'âœï¸' },
-                              { id: 'design', label: 'Design', icon: 'ðŸ–Œï¸' },
-                              { id: 'finance', label: 'Finance', icon: 'ðŸ’°' },
-                              { id: 'healthcare', label: 'Healthcare', icon: 'ðŸ¥' },
-                              { id: 'education', label: 'Education', icon: 'ðŸ“š' },
-                              { id: 'marketing', label: 'Marketing', icon: 'ðŸ“£' },
-                              { id: 'legal', label: 'Legal', icon: 'âš–ï¸' },
-                            ] as const).map(({ id, label, icon }) => (
+                            {([{
+                               id: 'tech', label: 'Technology', icon: '💻'
+                             }, {
+                               id: 'creative', label: 'Creative', icon: '🎨'
+                             }, {
+                               id: 'business', label: 'Business', icon: '📊'
+                             }, {
+                               id: 'writing', label: 'Writing', icon: '✍️'
+                             }, {
+                               id: 'design', label: 'Design', icon: '🎨'
+                             }, {
+                               id: 'finance', label: 'Finance', icon: '💰'
+                             }, {
+                               id: 'healthcare', label: 'Healthcare', icon: '🏥'
+                             }, {
+                               id: 'education', label: 'Education', icon: '📚'
+                             }, {
+                               id: 'marketing', label: 'Marketing', icon: '📣'
+                             }, {
+                               id: 'legal', label: 'Legal', icon: '⚖️'
+                             }] as const).map(({ id, label, icon }) => (
                               <button
                                 key={id}
                                 type="button"
