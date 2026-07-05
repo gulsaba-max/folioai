@@ -12,6 +12,7 @@ interface LoadingScreenProps {
   onDownload?: () => void;
   onDeploy?: () => void;
   onCreateAnother?: () => void;
+  accentColor?: string;
 }
 
 const TypewriterText = ({ text }: { text: string }) => {
@@ -34,7 +35,7 @@ const TypewriterText = ({ text }: { text: string }) => {
   return <span>{displayedText}<span className="animate-pulse opacity-50">|</span></span>;
 };
 
-export default function LoadingScreen({ isFinished = false, onView, onDownload, onDeploy, onCreateAnother }: LoadingScreenProps) {
+export default function LoadingScreen({ isFinished = false, onView, onDownload, onDeploy, onCreateAnother, accentColor }: LoadingScreenProps & { accentColor?: string }) {
   const [activeStep, setActiveStep] = useState(0);
   const [logs, setLogs] = useState<{ time: string, msg: string, agent: string }[]>([]);
   const logsEndRef = useRef<HTMLDivElement>(null);
@@ -190,6 +191,26 @@ export default function LoadingScreen({ isFinished = false, onView, onDownload, 
 
   const activeAgentInfo = pipeline[Math.min(activeStep, pipeline.length - 1)];
 
+  const accentMap: Record<string, { bg: string; text: string; border: string; soft: string; }> = {
+    indigo:  { bg: 'bg-indigo-600', text: 'text-indigo-600', border: 'border-indigo-600', soft: 'bg-indigo-50' },
+    violet:  { bg: 'bg-violet-600', text: 'text-violet-600', border: 'border-violet-600', soft: 'bg-violet-50' },
+    sky:     { bg: 'bg-sky-500', text: 'text-sky-600', border: 'border-sky-500', soft: 'bg-sky-50' },
+    cyan:    { bg: 'bg-cyan-500', text: 'text-cyan-600', border: 'border-cyan-500', soft: 'bg-cyan-50' },
+    teal:    { bg: 'bg-teal-500', text: 'text-teal-600', border: 'border-teal-500', soft: 'bg-teal-50' },
+    emerald: { bg: 'bg-emerald-500', text: 'text-emerald-600', border: 'border-emerald-500', soft: 'bg-emerald-50' },
+    green:   { bg: 'bg-green-500', text: 'text-green-600', border: 'border-green-500', soft: 'bg-green-50' },
+    lime:    { bg: 'bg-lime-500', text: 'text-lime-600', border: 'border-lime-500', soft: 'bg-lime-50' },
+    amber:   { bg: 'bg-amber-500', text: 'text-amber-600', border: 'border-amber-500', soft: 'bg-amber-50' },
+    orange:  { bg: 'bg-orange-500', text: 'text-orange-600', border: 'border-orange-500', soft: 'bg-orange-50' },
+    red:     { bg: 'bg-red-500', text: 'text-red-600', border: 'border-red-500', soft: 'bg-red-50' },
+    rose:    { bg: 'bg-rose-500', text: 'text-rose-600', border: 'border-rose-500', soft: 'bg-rose-50' },
+    pink:    { bg: 'bg-pink-500', text: 'text-pink-600', border: 'border-pink-500', soft: 'bg-pink-50' },
+    fuchsia: { bg: 'bg-fuchsia-500', text: 'text-fuchsia-600', border: 'border-fuchsia-500', soft: 'bg-fuchsia-50' },
+    slate:   { bg: 'bg-slate-700', text: 'text-slate-700', border: 'border-slate-700', soft: 'bg-slate-100' },
+    zinc:    { bg: 'bg-zinc-700', text: 'text-zinc-700', border: 'border-zinc-700', soft: 'bg-zinc-100' },
+  };
+  const palette = accentColor ? (accentMap[accentColor] ?? accentMap.indigo) : accentMap.indigo;
+
   return (
     <div className="fixed inset-0 z-50 bg-[#FAFAFC] overflow-y-auto font-sans text-[#111827]">
       <div className="max-w-[1400px] mx-auto px-6 py-10 min-h-screen flex flex-col">
@@ -198,20 +219,20 @@ export default function LoadingScreen({ isFinished = false, onView, onDownload, 
         {!showReport ? (
           <div className="flex items-center justify-between mb-8 pb-6 border-b border-gray-200">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center shadow-lg">
-                  <Activity className="w-6 h-6 text-white" />
-                </div>
-                AI Agent Mission Control
-              </h1>
+               <h1 className="text-3xl font-bold tracking-tight text-gray-900 flex items-center gap-3">
+                 <div className={`w-10 h-10 rounded-xl ${palette.bg} flex items-center justify-center shadow-lg`}>
+                   <Activity className="w-6 h-6 text-white" />
+                 </div>
+                 AI Agent Mission Control
+               </h1>
               <p className="text-gray-500 mt-2">Watch your portfolio being created in real time by multiple specialized AI agents.</p>
             </div>
 
             <div className="flex gap-4">
               <div className="flex flex-col items-end">
                 <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Pipeline Status</span>
-                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border
-                  ${isFinished ? 'bg-green-50 text-green-700 border-green-200' : 'bg-primary/10 text-primary-hover border-primary/20'}`}>
+                 <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border
+                   ${isFinished ? 'bg-green-50 text-green-700 border-green-200' : `${palette.soft} ${palette.text} ${palette.border}`}`}>
                   {isFinished ? <><Check className="w-3.5 h-3.5" /> Completed</> : <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Running</>}
                 </span>
               </div>
@@ -246,10 +267,10 @@ export default function LoadingScreen({ isFinished = false, onView, onDownload, 
                       const status = getAgentStatus(i);
                       return (
                         <div key={agent.id} className="flex items-start gap-4 group">
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 z-10 transition-colors duration-300
-                            ${status === 'completed' ? 'bg-green-100 border-2 border-green-500 text-green-600' : 
-                              status === 'running' ? 'bg-primary/20 border-2 border-primary text-primary shadow-[0_0_10px_rgba(212,165,116,0.3)]' : 
-                              'bg-gray-50 border-2 border-gray-200 text-gray-400'}`}>
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 z-10 transition-colors duration-300
+                             ${status === 'completed' ? 'bg-green-100 border-2 border-green-500 text-green-600' : 
+                               status === 'running' ? `${palette.soft} border-2 ${palette.border} ${palette.text}` : 
+                               'bg-gray-50 border-2 border-gray-200 text-gray-400'}`}>
                             {status === 'completed' ? <Check className="w-4 h-4" /> : 
                              status === 'running' ? <Loader2 className="w-4 h-4 animate-spin" /> : 
                              <agent.icon className="w-4 h-4" />}
@@ -257,7 +278,7 @@ export default function LoadingScreen({ isFinished = false, onView, onDownload, 
                           <div className="pt-1">
                             <p className={`font-semibold text-sm ${status === 'waiting' ? 'text-gray-400' : 'text-gray-900'}`}>{agent.name}</p>
                             {status === 'running' && (
-                              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-xs text-primary mt-1 font-medium flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin"/> Processing...</motion.p>
+                              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-xs text-primary mt-1 font-medium flex items-center gap-1"><Loader2 className="w-3 h-3 animate-spin"/> Processing...</motion.p>
                             )}
                           </div>
                         </div>
@@ -288,9 +309,9 @@ export default function LoadingScreen({ isFinished = false, onView, onDownload, 
                       >
                         <div className="flex justify-between items-start mb-4">
                           <div className="flex items-center gap-3">
-                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center
-                              ${status === 'completed' ? 'bg-green-50 text-green-600' : 
-                                status === 'running' ? 'bg-primary/10 text-primary' : 'bg-gray-50 text-gray-400'}`}>
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center
+                          ${status === 'completed' ? 'bg-green-50 text-green-600' : 
+                            status === 'running' ? `${palette.soft} ${palette.text}` : 'bg-gray-50 text-gray-400'}`}>
                               <agent.icon className="w-5 h-5" />
                             </div>
                             <div>
@@ -300,7 +321,7 @@ export default function LoadingScreen({ isFinished = false, onView, onDownload, 
                           </div>
                           <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest
                             ${status === 'completed' ? 'bg-green-100 text-green-700' : 
-                              status === 'running' ? 'bg-primary/20 text-primary-hover animate-pulse' : 'bg-gray-100 text-gray-500'}`}>
+                              status === 'running' ? `${palette.soft} ${palette.text}` : 'bg-gray-100 text-gray-500'}`}>
                             {status}
                           </span>
                         </div>
@@ -312,7 +333,7 @@ export default function LoadingScreen({ isFinished = false, onView, onDownload, 
                                 <span className="text-primary">{progress}%</span>
                               </div>
                               <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
-                                <motion.div className="h-full bg-primary rounded-full" initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ ease: "linear" }} />
+                                <motion.div className="h-full rounded-full ${palette.bg}" initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ ease: "linear" }} />
                               </div>
                             </div>
                           </div>
@@ -333,11 +354,11 @@ export default function LoadingScreen({ isFinished = false, onView, onDownload, 
               <div className="lg:col-span-4 flex flex-col gap-6">
                 <motion.div key="thinking" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col gap-6 h-full">
                    <div className="bg-white border border-border-subtle p-6 shadow-md flex-1 relative overflow-hidden">
-                    <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-primary to-primary-hover" />
+                       <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r ${palette.border.replace('border-', 'from-')} to-transparent" />
                     <div className="flex items-center gap-3 mb-5">
-                      <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center border border-indigo-100">
-                        <BrainCircuit className="w-4 h-4 text-indigo-600" />
-                      </div>
+                        <div className={`w-8 h-8 rounded-full ${palette.soft} flex items-center justify-center border ${palette.border}`}>
+                          <BrainCircuit className={`w-4 h-4 ${palette.text}`} />
+                        </div>
                       <div>
                         <h3 className="font-bold text-gray-900 leading-tight">AI Thinking</h3>
                         <p className="text-xs text-gray-500 font-medium">{activeAgentInfo.name}</p>
@@ -367,7 +388,7 @@ export default function LoadingScreen({ isFinished = false, onView, onDownload, 
                       <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Agent Insights</h4>
                       <div className="flex flex-col gap-1.5">
                         {activeAgentInfo.insights.map((insight, idx) => (
-                          <span key={idx} className="text-xs font-medium text-indigo-700 bg-indigo-50 px-2 py-1 rounded-md w-fit">{insight}</span>
+                           <span key={idx} className={`text-xs font-medium ${palette.text} ${palette.soft} px-2 py-1 rounded-md w-fit`}>{insight}</span>
                         ))}
                       </div>
                     </div>
