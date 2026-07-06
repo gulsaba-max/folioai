@@ -32,16 +32,16 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+
   // MFA flags
   const [mfaRequired, setMfaRequired] = useState(false);
   const [mfaCode, setmfaCode] = useState("");
   const [pendingUserId, setPendingUserId] = useState("");
-  
+
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  
+
   // Google OAuth states
   const [googleLoading, setGoogleLoading] = useState(false);
   const [googleError, setGoogleError] = useState<string | null>(null);
@@ -62,7 +62,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
         resolve();
         return;
       }
-      
+
       const script = document.createElement('script');
       script.src = 'https://accounts.google.com/gsi/client';
       script.async = true;
@@ -86,15 +86,15 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
     resetFields();
     setGoogleLoading(true);
     setGoogleError(null);
-    
+
     try {
       await loadGoogleSDK();
-      
+
       const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
       if (!clientId || clientId === "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com") {
         throw new Error("Google OAuth is not configured. Please add VITE_GOOGLE_CLIENT_ID to your .env file.");
       }
-      
+
       // Initialize Google token client
       const tokenClient = (window as any).google.accounts.oauth2.initTokenClient({
         client_id: clientId,
@@ -110,7 +110,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
             }
             return;
           }
-          
+
           try {
             // Send access token to backend for verification
             const backendResponse = await fetch(`${API_URL}/api/auth/google`, {
@@ -118,12 +118,12 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ accessToken: response.access_token })
             });
-            
+
             const data = await backendResponse.json();
             if (!backendResponse.ok) {
               throw new Error(data.error || "Google authentication failed");
             }
-            
+
             setGoogleLoading(false);
             setGoogleSuccess(data.message || "Welcome to FolioAI!");
             setTimeout(() => onSuccess(data.user), 600);
@@ -132,7 +132,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
           }
         },
       });
-      
+
       // Request access token
       tokenClient.requestAccessToken();
     } catch (err: any) {
@@ -218,24 +218,24 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
 
   return (
     <div id="auth-container" className="flex min-h-[calc(100vh-72px)] w-full font-sans bg-bg-base">
-      
+
       {/* Left Pane - Clean Branding */}
       <div className="hidden lg:flex w-1/2 bg-gray-50 relative overflow-hidden flex-col items-center justify-center border-r border-border-subtle p-12 text-center">
-         <div className="relative w-full max-w-md mb-8">
-              <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center border border-border-subtle shadow-sm mx-auto mb-8">
-                <Logo variant="minimal" className="w-12 h-12" />
-              </div>
-            <h1 className="text-4xl font-bold tracking-tight mb-4 text-text-main">Welcome to FolioAI</h1>
-            <p className="text-text-muted text-lg max-w-sm mx-auto leading-relaxed">
-              Transform your resume into a stunning portfolio. Join the platform designed for modern professionals.
-            </p>
+        <div className="relative w-full max-w-md mb-8">
+          <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center border border-border-subtle shadow-sm mx-auto mb-8">
+            <Logo variant="minimal" className="w-12 h-12" />
+          </div>
+          <h1 className="text-4xl font-bold tracking-tight mb-4 text-text-main">Welcome to FolioAI</h1>
+          <p className="text-text-muted text-lg max-w-sm mx-auto leading-relaxed">
+            Transform your resume into a stunning portfolio. Join the platform designed for modern professionals.
+          </p>
         </div>
       </div>
 
       {/* Right Pane - Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative bg-white">
-         <div className="w-full max-w-sm relative z-10">
-          
+        <div className="w-full max-w-sm relative z-10">
+
           <div className="flex lg:hidden flex-col items-center mb-8">
             <Logo variant="minimal" className="w-12 h-12 mb-4" />
             <h1 className="text-2xl font-bold tracking-tight text-text-main">FolioAI</h1>
@@ -247,14 +247,14 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
           </div>
 
           {error && (
-             <div className="mb-5 flex items-start gap-2.5 p-3.5 bg-red-50 rounded-xl border border-red-100 text-red-600 text-sm">
+            <div className="mb-5 flex items-start gap-2.5 p-3.5 bg-red-50 rounded-xl border border-red-100 text-red-600 text-sm">
               <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
           )}
 
           {success && (
-             <div className="mb-5 flex items-start gap-2.5 p-3.5 bg-green-50 rounded-xl border border-green-100 text-green-700 text-sm">
+            <div className="mb-5 flex items-start gap-2.5 p-3.5 bg-green-50 rounded-xl border border-green-100 text-green-700 text-sm">
               <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
               <span>{success}</span>
             </div>
@@ -262,7 +262,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
 
           {mfaRequired ? (
             <form onSubmit={handleMfaVerify} className="space-y-5">
-               <div className="text-center bg-gray-50 rounded-xl p-6 border border-border-subtle mb-4">
+              <div className="text-center bg-gray-50 rounded-xl p-6 border border-border-subtle mb-4">
                 <Smartphone className="w-10 h-10 text-text-muted mx-auto mb-3" />
                 <h2 className="text-lg font-semibold text-text-main">Security Verification Required</h2>
                 <p className="text-sm text-text-muted mt-2">Enter the 6-digit pin generated in your Authenticator app.</p>
@@ -343,12 +343,12 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
               </div>
 
               {googleError && (
-                 <div className="mb-4 flex items-start gap-2.5 p-3.5 bg-red-50 rounded-xl border border-red-100 text-red-600 text-sm animate-fade-in">
+                <div className="mb-4 flex items-start gap-2.5 p-3.5 bg-red-50 rounded-xl border border-red-100 text-red-600 text-sm animate-fade-in">
                   <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
                   <div className="flex-1">
                     <span>{googleError}</span>
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       onClick={handleGoogleSignIn}
                       className="text-xs font-semibold text-red-700 hover:text-red-800 underline mt-1 ml-0"
                     >
@@ -359,16 +359,16 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
               )}
 
               {googleSuccess && (
-                 <div className="mb-4 flex items-start gap-2.5 p-3.5 bg-green-50 rounded-xl border border-green-100 text-green-700 text-sm animate-fade-in">
+                <div className="mb-4 flex items-start gap-2.5 p-3.5 bg-green-50 rounded-xl border border-green-100 text-green-700 text-sm animate-fade-in">
                   <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                   <span>{googleSuccess}</span>
                 </div>
               )}
 
-              <button 
-                type="button" 
-                onClick={handleGoogleSignIn} 
-                disabled={googleLoading || loading} 
+              <button
+                type="button"
+                onClick={handleGoogleSignIn}
+                disabled={googleLoading || loading}
                 className="btn-secondary w-full py-3 text-base flex items-center justify-center gap-3 transition-all duration-200 hover:shadow-md active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {googleLoading ? (
