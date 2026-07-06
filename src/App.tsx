@@ -8,6 +8,7 @@ import AuthPage from "./components/AuthPage";
 import LandingPage from "./components/LandingPage";
 import Dashboard from "./components/Dashboard";
 import InteractivePortfolio from "./components/InteractivePortfolio";
+import PreviewPage from "./components/PreviewPage";
 import { Layout } from "./components/Layout";
 import { Sidebar } from "./components/Sidebar";
 import { AppPanel, PanelType } from "./components/AppPanel";
@@ -192,9 +193,18 @@ export default function App() {
   // Render the Live Site view if we are on a portfolio path
   // This must be placed after all hooks!
   if (window.location.pathname.startsWith("/p/")) {
+    const slug = window.location.pathname.split("/p/")[1];
+    if (!slug) return <div className="min-h-screen bg-bg-base text-text-muted font-sans text-sm flex items-center justify-center">Invalid portfolio URL</div>;
     if (liveLoading) return <div className="min-h-screen bg-bg-base text-text-muted font-sans text-sm flex items-center justify-center">Loading live site...</div>;
     if (liveError || !livePortfolio) return <div className="min-h-screen bg-bg-base text-error-main font-sans text-sm flex items-center justify-center">Error: {liveError || "Portfolio not found"}</div>;
     return <InteractivePortfolio portfolio={livePortfolio} isDemo={false} />;
+  }
+
+  const previewMatch = window.location.pathname.match(/^\/preview\/(.+)/);
+  if (previewMatch) {
+    const portfolioId = previewMatch[1];
+    if (!portfolioId) return <div className="min-h-screen bg-bg-base text-text-muted font-sans text-sm flex items-center justify-center">Invalid preview URL</div>;
+    return <PreviewPage portfolioId={portfolioId} />;
   }
 
   if (!currentUser) {
