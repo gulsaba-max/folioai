@@ -36,13 +36,13 @@ export default function SlateTemplate({
 }: TemplateProps) {
   const c = isDark
     ? { bg: "#09090b", sidebar: "bg-white/[0.03] border-white/[0.08]", card: "bg-white/[0.03] border-white/[0.06]", text: "text-slate-300", heading: "text-white", muted: "text-slate-500", input: "bg-white/5 border-white/10 text-slate-300 placeholder-slate-600", divider: "border-white/[0.07]" }
-    : { bg: "#f8fafc", sidebar: "bg-white/70 dark:bg-slate-800/70 border-white/20 dark:border-slate-700/30 shadow-[0_8px_30px_rgba(0,0,0,0.04)]", card: "bg-white/70 dark:bg-slate-800/70 border-white/20 dark:border-slate-700/30 shadow-[0_8px_30px_rgba(0,0,0,0.04)]", text: "text-slate-600", heading: "text-slate-900", muted: "text-slate-400", input: "bg-white/70 dark:bg-slate-800/70 border-white/20 dark:border-slate-700/30 text-slate-800 placeholder-slate-400", divider: "border-slate-100" };
+    : { bg: "#f8fafc", sidebar: "bg-white/70 border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.04)]", card: "bg-white/70 border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.04)]", text: "text-slate-600", heading: "text-slate-900", muted: "text-slate-400", input: "bg-white/70 border-white/20 text-slate-800 placeholder-slate-400", divider: "border-slate-100" };
 
   return (
     <div className="min-h-screen transition-colors duration-300 font-sans" style={{ background: c.bg, fontFamily: "'DM Sans', sans-serif" }}>
       <link rel="stylesheet" href={GOOGLE_FONTS} />
       {isDemo && (
-        <div className={`px-6 py-2 flex justify-between items-center text-[10px] font-mono ${isDark ? "bg-black/50 border-b border-white/[0.06] text-emerald-400" : "bg-white/70 dark:bg-slate-800/70 border-b border-white/20 dark:border-slate-700/30 text-emerald-600"}`}>
+        <div className={`px-6 py-2 flex justify-between items-center text-[10px] font-mono ${isDark ? "bg-black/50 border-b border-white/[0.06] text-emerald-400" : "bg-white/70 border-b border-white/20 text-emerald-600"}`}>
           <span className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />LIVE PREVIEW</span>
           <span className={isDark ? "text-slate-600" : "text-slate-400"}>{portfolio.slug}.folioai.tech</span>
         </div>
@@ -119,7 +119,7 @@ export default function SlateTemplate({
                   <div className="flex flex-wrap gap-2">
                     {portfolio.skills?.map((s, i) => (
                       <motion.span key={i} whileHover={{ scale: 1.05 }}
-                        className={`text-xs font-medium px-3 py-1.5 rounded-lg border transition-all ${isDark ? "bg-white/5 border-white/10 text-slate-300 hover:bg-white/10" : "bg-white/70 dark:bg-slate-800/70 border-white/20 dark:border-slate-700/30 text-slate-700 hover:bg-white/70 dark:hover:bg-slate-800/70"}`}>
+                         className={`text-xs font-medium px-3 py-1.5 rounded-lg border transition-all ${isDark ? "bg-white/5 border-white/10 text-slate-300 hover:bg-white/10" : "bg-white/70 border-white/20 text-slate-700 hover:bg-white/70"}`}>
                         {s}
                       </motion.span>
                     ))}
@@ -140,7 +140,7 @@ export default function SlateTemplate({
                         </div>
                         <p className={`text-sm leading-relaxed mb-4 ${c.text}`}>{p.description}</p>
                         <div className="flex flex-wrap gap-1.5">
-                          {p.techStack?.map((t, ti) => <span key={ti} className={`text-[10px] px-2 py-1 rounded-md font-medium ${isDark ? "bg-white/5 text-slate-400" : "bg-white/70 dark:bg-slate-800/70 text-slate-600"}`}>{t}</span>)}
+                           {p.techStack?.map((t, ti) => <span key={ti} className={`text-[10px] px-2 py-1 rounded-md font-medium ${isDark ? "bg-white/5 text-slate-400" : "bg-white/70 text-slate-600"}`}>{t}</span>)}
                         </div>
                       </motion.div>
                     ))}

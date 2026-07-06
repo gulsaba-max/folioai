@@ -27,8 +27,11 @@ export interface CSSVariableMap {
 }
 
 export const THEME_IDS = [
+  'minimal', 'glass', 'developer', 'futuristic', 'creative',
+  'corporate', 'startup', 'cyberpunk', 'agency', 'luxury',
   'editorial', 'engineer', 'bento', 'brutalist', 'aurora',
-  'atelier', 'mono-lux', 'vibrant', 'architectural', 'vintage-modern'
+  'atelier', 'mono-lux', 'vibrant', 'architectural', 'vintage-modern',
+  'slate', 'cyber'
 ] as const;
 
 export type ThemeId = typeof THEME_IDS[number];
@@ -40,32 +43,82 @@ export interface TypographyTokens {
 }
 
 export const PALETTE_BY_THEME: Record<ThemeId, CSSVariableMap> = {
-  'editorial': {
-    bg: 'oklch(0.98 0.003 90)', fg: 'oklch(0.15 0.01 260)',
-    muted: 'oklch(0.55 0.015 90)', surface: 'oklch(0.96 0.004 90)',
-    accent: 'oklch(0.35 0.12 270)', border: 'oklch(0.85 0.008 90)'
+  minimal: {
+    bg: 'oklch(0.99 0.002 260)', fg: 'oklch(0.15 0.01 260)',
+    muted: 'oklch(0.55 0.01 260)', surface: 'oklch(0.98 0.003 260)',
+    accent: 'oklch(0.55 0.10 280)', border: 'oklch(0.90 0.008 260)'
   },
-  'engineer': {
+  glass: {
+    bg: 'oklch(0.13 0.01 250)', fg: 'oklch(0.92 0.01 250)',
+    muted: 'oklch(0.60 0.015 250)', surface: 'oklch(0.18 0.015 250)',
+    accent: 'oklch(0.70 0.14 200)', border: 'oklch(0.25 0.015 250)'
+  },
+  developer: {
     bg: 'oklch(0.99 0 0)', fg: 'oklch(0.15 0.005 260)',
     muted: 'oklch(0.50 0.005 260)', surface: 'oklch(0.96 0 0)',
     accent: 'oklch(0.55 0.14 210)', border: 'oklch(0.90 0.005 260)'
   },
-  'bento': {
+  futuristic: {
+    bg: 'oklch(0.11 0.015 250)', fg: 'oklch(0.90 0.02 250)',
+    muted: 'oklch(0.60 0.02 250)', surface: 'oklch(0.15 0.025 250)',
+    accent: 'oklch(0.65 0.18 280)', border: 'oklch(0.22 0.02 250)'
+  },
+  creative: {
+    bg: 'oklch(0.98 0.005 90)', fg: 'oklch(0.15 0.01 260)',
+    muted: 'oklch(0.55 0.01 260)', surface: 'oklch(0.96 0.004 90)',
+    accent: 'oklch(0.55 0.15 30)', border: 'oklch(0.88 0.008 90)'
+  },
+  corporate: {
+    bg: 'oklch(0.98 0.003 90)', fg: 'oklch(0.15 0.01 260)',
+    muted: 'oklch(0.55 0.015 90)', surface: 'oklch(0.96 0.004 90)',
+    accent: 'oklch(0.35 0.12 270)', border: 'oklch(0.85 0.008 90)'
+  },
+  startup: {
+    bg: 'oklch(0.10 0.01 270)', fg: 'oklch(0.92 0.01 270)',
+    muted: 'oklch(0.60 0.015 270)', surface: 'oklch(0.14 0.015 270)',
+    accent: 'oklch(0.65 0.18 25)', border: 'oklch(0.22 0.01 270)'
+  },
+  cyberpunk: {
+    bg: 'oklch(0.10 0.02 250)', fg: 'oklch(0.90 0.02 250)',
+    muted: 'oklch(0.60 0.02 250)', surface: 'oklch(0.14 0.025 250)',
+    accent: 'oklch(0.75 0.18 320)', border: 'oklch(0.22 0.02 250)'
+  },
+  agency: {
+    bg: 'oklch(0.99 0.002 260)', fg: 'oklch(0.15 0.01 260)',
+    muted: 'oklch(0.55 0.01 260)', surface: 'oklch(0.97 0.003 260)',
+    accent: 'oklch(0.55 0.12 280)', border: 'oklch(0.90 0.008 260)'
+  },
+  luxury: {
+    bg: 'oklch(0.99 0.003 90)', fg: 'oklch(0.15 0.01 260)',
+    muted: 'oklch(0.55 0.015 90)', surface: 'oklch(0.97 0.004 90)',
+    accent: 'oklch(0.55 0.14 80)', border: 'oklch(0.88 0.01 90)'
+  },
+  editorial: {
+    bg: 'oklch(0.98 0.003 90)', fg: 'oklch(0.15 0.01 260)',
+    muted: 'oklch(0.55 0.015 90)', surface: 'oklch(0.96 0.004 90)',
+    accent: 'oklch(0.35 0.12 270)', border: 'oklch(0.85 0.008 90)'
+  },
+  engineer: {
+    bg: 'oklch(0.99 0 0)', fg: 'oklch(0.15 0.005 260)',
+    muted: 'oklch(0.50 0.005 260)', surface: 'oklch(0.96 0 0)',
+    accent: 'oklch(0.55 0.14 210)', border: 'oklch(0.90 0.005 260)'
+  },
+  bento: {
     bg: 'oklch(0.99 0.002 270)', fg: 'oklch(0.15 0.01 260)',
     muted: 'oklch(0.55 0.01 260)', surface: 'oklch(0.97 0.003 270)',
     accent: 'oklch(0.55 0.10 280)', border: 'oklch(0.90 0.008 270)'
   },
-  'brutalist': {
+  brutalist: {
     bg: 'oklch(1 0 0)', fg: 'oklch(0 0 0)',
     muted: 'oklch(0.55 0 0)', surface: 'oklch(1 0 0)',
     accent: 'oklch(0.55 0.20 25)', border: 'oklch(0 0 0)'
   },
-  'aurora': {
+  aurora: {
     bg: 'oklch(0.97 0.008 250)', fg: 'oklch(0.15 0.02 250)',
     muted: 'oklch(0.50 0.015 250)', surface: 'oklch(0.94 0.012 250)',
     accent: 'oklch(0.60 0.12 170)', border: 'oklch(0.88 0.01 250)'
   },
-  'atelier': {
+  atelier: {
     bg: 'oklch(0.96 0.012 80)', fg: 'oklch(0.20 0.015 70)',
     muted: 'oklch(0.50 0.015 70)', surface: 'oklch(0.93 0.010 80)',
     accent: 'oklch(0.50 0.12 45)', border: 'oklch(0.85 0.010 80)'
@@ -75,12 +128,12 @@ export const PALETTE_BY_THEME: Record<ThemeId, CSSVariableMap> = {
     muted: 'oklch(0.50 0 0)', surface: 'oklch(0.97 0 0)',
     accent: 'oklch(0.70 0 0)', border: 'oklch(0.90 0 0)'
   },
-  'vibrant': {
+  vibrant: {
     bg: 'oklch(0.99 0.005 270)', fg: 'oklch(0.15 0.01 260)',
     muted: 'oklch(0.55 0.01 260)', surface: 'oklch(0.97 0.008 270)',
     accent: 'oklch(0.60 0.18 25)', border: 'oklch(0.88 0.01 270)'
   },
-  'architectural': {
+  architectural: {
     bg: 'oklch(0.98 0.003 90)', fg: 'oklch(0.12 0.005 70)',
     muted: 'oklch(0.48 0.008 70)', surface: 'oklch(0.96 0.002 90)',
     accent: 'oklch(0.55 0.14 230)', border: 'oklch(0.88 0.005 70)'
@@ -89,10 +142,120 @@ export const PALETTE_BY_THEME: Record<ThemeId, CSSVariableMap> = {
     bg: 'oklch(0.97 0.008 80)', fg: 'oklch(0.20 0.015 60)',
     muted: 'oklch(0.50 0.012 60)', surface: 'oklch(0.95 0.006 80)',
     accent: 'oklch(0.55 0.10 70)', border: 'oklch(0.85 0.008 80)'
+  },
+  slate: {
+    bg: 'oklch(0.13 0.01 250)', fg: 'oklch(0.92 0.01 250)',
+    muted: 'oklch(0.60 0.015 250)', surface: 'oklch(0.18 0.015 250)',
+    accent: 'oklch(0.70 0.14 200)', border: 'oklch(0.25 0.015 250)'
+  },
+  cyber: {
+    bg: 'oklch(0.08 0.02 250)', fg: 'oklch(0.90 0.02 250)',
+    muted: 'oklch(0.60 0.02 250)', surface: 'oklch(0.12 0.025 250)',
+    accent: 'oklch(0.75 0.18 320)', border: 'oklch(0.22 0.02 250)'
   }
 };
 
 export const THEME_DEFS: ThemeDefinition[] = [
+  {
+    id: 'minimal', name: 'Minimal', display: 'Minimal',
+    description: 'Huge typography, lots of whitespace, elegant animations, sticky nav.',
+    light: PALETTE_BY_THEME['minimal'],
+    dark: {
+      bg: 'oklch(0.13 0.01 270)', fg: 'oklch(0.90 0.01 270)',
+      muted: 'oklch(0.60 0.012 270)', surface: 'oklch(0.17 0.010 270)',
+      accent: 'oklch(0.70 0.12 280)', border: 'oklch(0.25 0.01 270)'
+    }
+  },
+  {
+    id: 'glass', name: 'Glass', display: 'Glass',
+    description: 'Frosted glass cards, animated gradient blobs, floating UI, neon highlights.',
+    light: {
+      bg: 'oklch(0.98 0.003 250)', fg: 'oklch(0.15 0.01 250)',
+      muted: 'oklch(0.55 0.015 250)', surface: 'oklch(0.95 0.010 250)',
+      accent: 'oklch(0.55 0.14 200)', border: 'oklch(0.85 0.01 250)'
+    },
+    dark: PALETTE_BY_THEME['glass']
+  },
+  {
+    id: 'developer', name: 'Developer', display: 'Developer',
+    description: 'Terminal hero, code snippets, repo-style cards, animated cursor.',
+    light: PALETTE_BY_THEME['developer'],
+    dark: {
+      bg: 'oklch(0.08 0.005 260)', fg: 'oklch(0.92 0.005 260)',
+      muted: 'oklch(0.60 0.005 260)', surface: 'oklch(0.12 0.005 260)',
+      accent: 'oklch(0.70 0.15 210)', border: 'oklch(0.22 0.008 260)'
+    }
+  },
+  {
+    id: 'futuristic', name: 'Futuristic', display: 'Futuristic',
+    description: 'Aurora background, floating particles, neon glow, animated grid, deep-space.',
+    light: {
+      bg: 'oklch(0.95 0.01 250)', fg: 'oklch(0.20 0.02 250)',
+      muted: 'oklch(0.55 0.02 250)', surface: 'oklch(0.92 0.025 250)',
+      accent: 'oklch(0.60 0.18 280)', border: 'oklch(0.80 0.02 250)'
+    },
+    dark: PALETTE_BY_THEME['futuristic']
+  },
+  {
+    id: 'creative', name: 'Creative', display: 'Creative',
+    description: 'Large images, horizontal project gallery, oversized typography, animated text loop.',
+    light: PALETTE_BY_THEME['creative'],
+    dark: {
+      bg: 'oklch(0.12 0.01 260)', fg: 'oklch(0.92 0.01 260)',
+      muted: 'oklch(0.60 0.015 260)', surface: 'oklch(0.16 0.012 260)',
+      accent: 'oklch(0.65 0.15 30)', border: 'oklch(0.22 0.01 260)'
+    }
+  },
+  {
+    id: 'corporate', name: 'Corporate', display: 'Corporate',
+    description: 'Elegant navy theme, KPI counters, professional timeline, premium cards.',
+    light: PALETTE_BY_THEME['corporate'],
+    dark: {
+      bg: 'oklch(0.12 0.01 260)', fg: 'oklch(0.92 0.005 90)',
+      muted: 'oklch(0.60 0.01 90)', surface: 'oklch(0.16 0.008 260)',
+      accent: 'oklch(0.65 0.14 270)', border: 'oklch(0.25 0.008 260)'
+    }
+  },
+  {
+    id: 'startup', name: 'Startup', display: 'Startup',
+    description: 'Bento grid layout, startup metrics with counters, varied card sizes.',
+    light: {
+      bg: 'oklch(0.96 0.005 270)', fg: 'oklch(0.15 0.01 260)',
+      muted: 'oklch(0.55 0.01 260)', surface: 'oklch(0.94 0.008 270)',
+      accent: 'oklch(0.60 0.18 25)', border: 'oklch(0.85 0.01 270)'
+    },
+    dark: PALETTE_BY_THEME['startup']
+  },
+  {
+    id: 'cyberpunk', name: 'Cyberpunk', display: 'Cyberpunk',
+    description: 'Neon colors, matrix rain, glitch text, animated borders, scan-line overlay.',
+    light: {
+      bg: 'oklch(0.95 0.02 250)', fg: 'oklch(0.15 0.02 250)',
+      muted: 'oklch(0.55 0.02 250)', surface: 'oklch(0.92 0.025 250)',
+      accent: 'oklch(0.70 0.22 320)', border: 'oklch(0.80 0.02 250)'
+    },
+    dark: PALETTE_BY_THEME['cyberpunk']
+  },
+  {
+    id: 'agency', name: 'Agency', display: 'Agency',
+    description: 'Fullscreen sections, bold editorial typography, hover image reveals, diagonal layouts.',
+    light: {
+      bg: 'oklch(0.99 0.002 90)', fg: 'oklch(0.15 0.01 260)',
+      muted: 'oklch(0.55 0.01 260)', surface: 'oklch(0.97 0.003 90)',
+      accent: 'oklch(0.55 0.12 280)', border: 'oklch(0.90 0.008 90)'
+    },
+    dark: PALETTE_BY_THEME['agency']
+  },
+  {
+    id: 'luxury', name: 'Luxury', display: 'Luxury',
+    description: 'Cinematic hero, gold accent, Cormorant Garamond, ultra-premium spacing.',
+    light: PALETTE_BY_THEME['luxury'],
+    dark: {
+      bg: 'oklch(0.08 0.005 90)', fg: 'oklch(0.92 0.008 90)',
+      muted: 'oklch(0.60 0.01 90)', surface: 'oklch(0.12 0.008 90)',
+      accent: 'oklch(0.65 0.14 80)', border: 'oklch(0.22 0.01 90)'
+    }
+  },
   {
     id: 'editorial', name: 'Editorial', display: 'Editorial',
     description: 'High-end magazine/newspaper aesthetic with serif typography and elegant reveals.',
@@ -192,6 +355,26 @@ export const THEME_DEFS: ThemeDefinition[] = [
       muted: 'oklch(0.60 0.012 60)', surface: 'oklch(0.18 0.010 60)',
       accent: 'oklch(0.65 0.10 70)', border: 'oklch(0.28 0.01 60)'
     }
+  },
+  {
+    id: 'slate', name: 'Slate', display: 'Slate',
+    description: 'Sophisticated dark sidebar with glassmorphism, sticky nav, clean content.',
+    light: {
+      bg: 'oklch(0.98 0.003 250)', fg: 'oklch(0.15 0.01 250)',
+      muted: 'oklch(0.55 0.015 250)', surface: 'oklch(0.95 0.010 250)',
+      accent: 'oklch(0.55 0.14 200)', border: 'oklch(0.85 0.01 250)'
+    },
+    dark: PALETTE_BY_THEME['slate']
+  },
+  {
+    id: 'cyber', name: 'Cyber', display: 'Cyber',
+    description: 'Neon-drenched terminal aesthetic with glitch effects and scanlines.',
+    light: {
+      bg: 'oklch(0.95 0.02 250)', fg: 'oklch(0.15 0.02 250)',
+      muted: 'oklch(0.55 0.02 250)', surface: 'oklch(0.92 0.025 250)',
+      accent: 'oklch(0.70 0.22 320)', border: 'oklch(0.80 0.02 250)'
+    },
+    dark: PALETTE_BY_THEME['cyber']
   }
 ];
 

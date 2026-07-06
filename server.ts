@@ -683,6 +683,18 @@ app.get("/api/portfolio/get/:slug", (req, res) => {
   res.json(portfolio);
 });
 
+app.get("/api/portfolio/preview/:portfolioId", (req, res) => {
+  const { portfolioId } = req.params;
+  const db = readDb();
+
+  const portfolio = db.portfolios.find((p: any) => p.id === portfolioId || p.slug === portfolioId);
+  if (!portfolio) {
+    return res.status(404).json({ error: "Portfolio not found" });
+  }
+
+  res.json(portfolio);
+});
+
 app.get("/api/portfolio/user/:userId", (req, res) => {
   const { userId } = req.params;
   const db = readDb();

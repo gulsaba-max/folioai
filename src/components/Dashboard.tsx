@@ -711,6 +711,11 @@ export default function Dashboard(props: DashboardProps) {
                           </motion.button>
                         )}
                         {!isDemo && (
+                          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={() => window.open(`/preview/${activePortfolio.id}`, '_blank')} className="btn-secondary text-sm px-4 py-2 flex items-center gap-2">
+                            <Eye className="w-4 h-4" /> Live Preview
+                          </motion.button>
+                        )}
+                        {!isDemo && (
                           <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSavePortfolio} disabled={saving} className="btn-primary text-sm px-4 py-2 flex items-center gap-2">
                             {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <ArrowUpRight className="w-4 h-4" />}
                             {saving ? 'Saving...' : 'Publish'}
