@@ -10,7 +10,7 @@ import {
   Settings, Type, CheckCircle, Database, HelpCircle, Shield,
   DollarSign, Globe, Code, ArrowUpRight, BarChart3, FileText, FolderKanban,
   MapPin, UserCheck, RefreshCw, Layers, ShieldCheck, CreditCard,
-  User, Check, AlertTriangle, Eye, BookOpen, MessageSquare, Bot, UploadCloud, ChevronRight, LogOut
+  Check, AlertTriangle, Eye, BookOpen, MessageSquare, Bot, UploadCloud, ChevronRight, LogOut
 } from "lucide-react";
 import LoadingScreen from "./LoadingScreen";
 import { useToast } from "./Toast";
@@ -78,9 +78,7 @@ export default function Dashboard(props: DashboardProps) {
   const [manualProjects, setManualProjects] = useState<Project[]>([]);
   const [manualExperience, setManualExperience] = useState<Experience[]>([]);
   const [manualCertifications, setManualCertifications] = useState<Certification[]>([]);
-  const [avatarUrl, setAvatarUrl] = useState<string>('');
   const [creationMethod, setCreationMethod] = useState<'resume' | 'manual'>('resume');
-  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -126,45 +124,6 @@ export default function Dashboard(props: DashboardProps) {
   const [mfaSecret, setMfaSecret] = useState(user.mfaCodeSecret);
   const [mfaLoading, setMfaLoading] = useState(false);
 
-  const [metrics, setMetrics] = useState<any>({ pageViews: 0, socialClicks: 0, contactForms: 0 });
-  const [countries, setCountries] = useState<any[]>([]);
-  const [browsers, setBrowsers] = useState<any[]>([]);
-  const [timeline, setTimeline] = useState<any[]>([]);
-  const [metricsLoading, setMetricsLoading] = useState(false);
-
-  const [activeTier, setActiveTier] = useState<'free' | 'premium' | 'ultimate'>(user.subscriptionTier || 'free');
-  const [billingLoading, setBillingLoading] = useState(false);
-  const [billingLogs, setBillingLogs] = useState<any[]>(user.billingHistory || []);
-
-
-
-
-  const MAX_AVATAR_SIZE = 2 * 1024 * 1024; // 2MB
-
-  const handleAvatarFile = (file: File | undefined, successMessage?: string) => {
-    if (!file) return;
-
-    if (!file.type.startsWith("image/")) {
-      toast('error', 'Invalid File', 'Please upload an image file (JPG, PNG, WEBP, etc.).');
-      return;
-    }
-
-    if (file.size > MAX_AVATAR_SIZE) {
-      toast('error', 'Image Too Large', 'Please upload an image smaller than 2MB.');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      setAvatarUrl(reader.result as string);
-      if (successMessage) toast('success', 'Photo Uploaded', successMessage);
-    };
-    reader.onerror = () => {
-      toast('error', 'Upload Failed', 'Could not read the selected image. Please try another file.');
-    };
-    reader.readAsDataURL(file);
-  };
-
   const API_URL = import.meta.env.VITE_API_URL;
 
   const fetchAnalytics = async () => {
@@ -191,14 +150,12 @@ export default function Dashboard(props: DashboardProps) {
     if (creationMethod === 'resume') {
       if (!resumeText.trim()) { toast('warning', 'Resume missing', 'Please paste resume text to continue parsing.'); setGenerating(false); return; }
       payload.resumeText = resumeText;
-      if (avatarUrl) payload.manualData = { avatarUrl };
     } else {
       payload.manualData = {
         name: manualName || "Anonymous Creator",
         title: manualTitle || "Software Engineer",
         bio: manualBio || "Full-stack engineer crafting durable and performant cloud web systems.",
         contactEmail: manualEmail || user.email || "johndoe@example.com",
-        avatarUrl: avatarUrl || undefined,
         skills: ["React", "TypeScript", "Node.js", "Express", "Tailwind CSS"],
         projects: manualProjects.length > 0 ? manualProjects : [{ id: "man_1", title: "Portfolio Project", description: "A professional project showcasing my skills.", techStack: ["React", "TypeScript"] }],
         experience: manualExperience.length > 0 ? manualExperience : [],
@@ -377,29 +334,6 @@ export default function Dashboard(props: DashboardProps) {
                     <div className="pl-12">
                       {creationMethod === 'resume' ? (
                         <div className="space-y-4 mt-6">
-                          <div className="flex flex-col sm:flex-row items-center gap-6 p-6 bg-white border border-border-subtle rounded-3xl shadow-sm">
-                            <div className="w-24 h-24 rounded-full bg-white border-2 border-dashed border-border-subtle flex items-center justify-center relative group overflow-hidden shrink-0">
-                              {avatarUrl ? (
-                                <img src={avatarUrl} alt="Avatar preview" className="w-full h-full object-cover" />
-                              ) : (
-                                <User className="w-10 h-10 text-text-muted" />
-                              )}
-                              <label className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
-                                <span className="text-white text-xs font-medium">Upload</span>
-                                <input type="file" accept="image/*" className="hidden" onChange={(e) => {
-                                  handleAvatarFile(e.target.files?.[0], 'Your profile picture has been added.');
-                                  e.target.value = "";
-                                }} />
-                              </label>
-                            </div>
-                            <div className="flex-1 text-center sm:text-left">
-                              <p className="text-sm font-medium text-text-main mb-1">Profile Picture (Optional)</p>
-                              <p className="text-xs text-text-muted">Upload a professional headshot. This will be used as your portfolio avatar.</p>
-                              {avatarUrl && (
-                                <button type="button" onClick={() => setAvatarUrl('')} className="text-xs font-medium text-red-500 hover:text-red-600 mt-2">Remove Photo</button>
-                              )}
-                            </div>
-                          </div>
                           <div className="relative group/upload">
                             <input type="file" accept=".txt,.md,.rtf,.json,.pdf,.docx" onChange={handleFileUpload} disabled={isUploading} className={`absolute inset-0 w-full h-full opacity-0 z-10 ${isUploading ? 'cursor-not-allowed' : 'cursor-pointer'}`} />
                             <div className={`w-full flex flex-col items-center justify-center gap-3 py-10 px-6 border-2 border-dashed rounded-3xl transition-all duration-300 ${isUploading ? 'border-primary bg-primary/5 text-primary' : 'border-border-subtle bg-white text-text-muted hover:border-border-accent hover:bg-gray-50'}`}>
@@ -438,28 +372,6 @@ export default function Dashboard(props: DashboardProps) {
                           <div className="p-6">
                             {manualTab === 'profile' && (
                               <div className="space-y-5">
-                                <div className="flex items-center gap-6 mb-4">
-                                  <div className="w-20 h-20 rounded-full bg-gray-100 border border-border-subtle overflow-hidden flex items-center justify-center shrink-0 relative group">
-                                    {avatarUrl ? (
-                                      <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
-                                    ) : (
-                                      <User className="w-8 h-8 text-text-muted" />
-                                    )}
-                                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                      <label className="cursor-pointer text-white text-xs font-medium">
-                                        Upload
-                                        <input type="file" accept="image/*" className="hidden" onChange={(e) => {
-                                          handleAvatarFile(e.target.files?.[0]);
-                                          e.target.value = "";
-                                        }} />
-                                      </label>
-                                    </div>
-                                  </div>
-                                  <div className="flex-1">
-                                    <h4 className="text-sm font-medium text-text-main">Profile Picture</h4>
-                                    <p className="text-xs text-text-muted">Upload a professional headshot.</p>
-                                  </div>
-                                </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                   <PremiumInput label="Full Name" value={manualName} onChange={(e) => setManualName(e.target.value)} placeholder="John Doe" />
                                   <PremiumInput label="Headline" value={manualTitle} onChange={(e) => setManualTitle(e.target.value)} placeholder="Senior Software Engineer" />
