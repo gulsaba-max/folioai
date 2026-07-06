@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import { Mail, Lock, CheckCircle2, AlertCircle, Smartphone, ArrowLeft, Loader2 } from "lucide-react";
 import { Logo } from "./Logo";
 import { useToast } from "./Toast";
+const API_URL = import.meta.env.VITE_API_URL;
 
 interface AuthPageProps {
   onSuccess: (user: any) => void;
@@ -112,7 +113,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
           
           try {
             // Send access token to backend for verification
-            const backendResponse = await fetch("/api/auth/google", {
+            const backendResponse = await fetch(`${API_URL}/api/auth/google`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ accessToken: response.access_token })
@@ -148,10 +149,12 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
     }
 
     setLoading(true);
-    const endpoint = isRegistering ? "/api/auth/register" : "/api/auth/login";
+    const endpoint = isRegistering
+  ? `${API_URL}/api/auth/register`
+  : `${API_URL}/api/auth/login`;
 
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch(`${API_URL}/api/auth/mfa-verify`, { {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
