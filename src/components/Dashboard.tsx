@@ -79,6 +79,7 @@ export default function Dashboard(props: DashboardProps) {
   const [manualExperience, setManualExperience] = useState<Experience[]>([]);
   const [manualCertifications, setManualCertifications] = useState<Certification[]>([]);
   const [creationMethod, setCreationMethod] = useState<'resume' | 'manual'>('resume');
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
