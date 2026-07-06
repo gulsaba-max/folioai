@@ -139,6 +139,32 @@ export default function Dashboard(props: DashboardProps) {
 
 
 
+  const MAX_AVATAR_SIZE = 2 * 1024 * 1024; // 2MB
+
+  const handleAvatarFile = (file: File | undefined, successMessage?: string) => {
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast('error', 'Invalid File', 'Please upload an image file (JPG, PNG, WEBP, etc.).');
+      return;
+    }
+
+    if (file.size > MAX_AVATAR_SIZE) {
+      toast('error', 'Image Too Large', 'Please upload an image smaller than 2MB.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setAvatarUrl(reader.result as string);
+      if (successMessage) toast('success', 'Photo Uploaded', successMessage);
+    };
+    reader.onerror = () => {
+      toast('error', 'Upload Failed', 'Could not read the selected image. Please try another file.');
+    };
+    reader.readAsDataURL(file);
+  };
+
   const API_URL = import.meta.env.VITE_API_URL;
 
   const fetchAnalytics = async () => {
@@ -361,11 +387,8 @@ export default function Dashboard(props: DashboardProps) {
                               <label className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
                                 <span className="text-white text-xs font-medium">Upload</span>
                                 <input type="file" accept="image/*" className="hidden" onChange={(e) => {
-                                  if (e.target.files && e.target.files[0]) {
-                                    const url = URL.createObjectURL(e.target.files[0]);
-                                    setAvatarUrl(url);
-                                    toast('success', 'Photo Uploaded', 'Your profile picture has been added.');
-                                  }
+                                  handleAvatarFile(e.target.files?.[0], 'Your profile picture has been added.');
+                                  e.target.value = "";
                                 }} />
                               </label>
                             </div>
@@ -426,10 +449,8 @@ export default function Dashboard(props: DashboardProps) {
                                       <label className="cursor-pointer text-white text-xs font-medium">
                                         Upload
                                         <input type="file" accept="image/*" className="hidden" onChange={(e) => {
-                                          if (e.target.files && e.target.files[0]) {
-                                            const url = URL.createObjectURL(e.target.files[0]);
-                                            setAvatarUrl(url);
-                                          }
+                                          handleAvatarFile(e.target.files?.[0]);
+                                          e.target.value = "";
                                         }} />
                                       </label>
                                     </div>
@@ -711,6 +732,11 @@ export default function Dashboard(props: DashboardProps) {
                           </motion.button>
                         )}
                         {!isDemo && (
+                          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={() => window.open(`/preview/${activePortfolio.id}`, '_blank')} className="btn-secondary text-sm px-4 py-2 flex items-center gap-2">
+                            <Eye className="w-4 h-4" /> Live Preview
+                          </motion.button>
+                        )}
+                        {!isDemo && (
                           <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} onClick={handleSavePortfolio} disabled={saving} className="btn-primary text-sm px-4 py-2 flex items-center gap-2">
                             {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <ArrowUpRight className="w-4 h-4" />}
                             {saving ? 'Saving...' : 'Publish'}
@@ -849,7 +875,11 @@ export default function Dashboard(props: DashboardProps) {
                         aurora: 'bg-indigo-950', atelier: 'bg-orange-50', 'mono-lux': 'bg-white', vibrant: 'bg-fuchsia-50',
                         architectural: 'bg-slate-100', 'vintage-modern': 'bg-amber-50'
                       };
-                      return (
+                      const avatarThemes = ['atelier', 'editorial', 'architectural', 'vintage-modern', 'vibrant'] as const;
+                       const avatarBadge = avatarThemes.includes(themeId as any) ? (
+                         <span className="text-[10px] font-semibold text-primary/80 mt-1 block"> Supports profile photo</span>
+                      ) : null;
+                       return (
                         <motion.div
                           key={themeId}
                           whileHover={{ y: -4, scale: 1.02 }}
@@ -870,6 +900,7 @@ export default function Dashboard(props: DashboardProps) {
                           <div className="p-4">
                             <h3 className="font-semibold text-text-main mb-1">{themeLabels[themeId]}</h3>
                             <p className="text-xs text-text-muted capitalize">{themeId} style</p>
+                            {avatarBadge}
                           </div>
                         </motion.div>
                       );

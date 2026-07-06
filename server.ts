@@ -232,6 +232,7 @@ app.post("/api/generate-portfolio", async (req, res) => {
       title: manualData?.title || "Senior Software Engineer",
       bio: manualData?.bio || "This is a mock generated portfolio because no OPENAI_API_KEY was found. Add your key to .env to enable real AI generation.",
       contactEmail: manualData?.contactEmail || "mock@example.com",
+      avatarUrl: manualData?.avatarUrl || undefined,
       skills: ["React", "Node.js", "TypeScript", "Mock Data"],
       projects: [
         {
@@ -418,6 +419,7 @@ app.post("/api/generate-portfolio", async (req, res) => {
       title: normalizedTitle,
       bio: normalizedBio,
       contactEmail: normalizedContactEmail,
+      avatarUrl: manualData?.avatarUrl || undefined,
       skills: normalizedSkills,
       projects: normalizedProjects,
       experience: normalizedExperience,
@@ -678,6 +680,18 @@ app.get("/api/portfolio/get/:slug", (req, res) => {
   const portfolio = db.portfolios.find((p: any) => p.slug === slug || p.customDomain === slug);
   if (!portfolio) {
     return res.status(404).json({ error: "Portfolio not found with this slug or domain" });
+  }
+
+  res.json(portfolio);
+});
+
+app.get("/api/portfolio/preview/:portfolioId", (req, res) => {
+  const { portfolioId } = req.params;
+  const db = readDb();
+
+  const portfolio = db.portfolios.find((p: any) => p.id === portfolioId || p.slug === portfolioId);
+  if (!portfolio) {
+    return res.status(404).json({ error: "Portfolio not found" });
   }
 
   res.json(portfolio);
