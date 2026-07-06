@@ -11,7 +11,6 @@ import { motion, useInView } from "motion/react";
 import { ExternalLink, Sun, Moon, Send, Check, Terminal, GitBranch, Star, Code2, Briefcase, GraduationCap, Zap, MapPin, Mail } from "lucide-react";
 import type { TemplateProps } from "./templateUtils";
 import { getThemeById } from "./design-tokens";
-import type { CSSVariableMap } from "./design-tokens";
 import { GOOGLE_FONTS } from "./templateUtils";
 
 function useTyping(lines: string[], speed = 45) {
@@ -41,7 +40,7 @@ function useTyping(lines: string[], speed = 45) {
   return displayed;
 }
 
-function TerminalHero({ name, title, email, theme, accent }: { name: string; title: string; email: string; theme: { bg: string; surface: string; border: string; fg: string; muted: string; accent: string }; accent: string }) {
+function TerminalHero({ name, title, email, theme, accent }: { name: string; title: string; email: string; theme: { bg: string; surface: string; border: string; fg: string; muted: string; }; accent: string }) {
   const lines = [
     `$ whoami`,
     `→ ${name}`,
@@ -78,7 +77,7 @@ function TerminalHero({ name, title, email, theme, accent }: { name: string; tit
   );
 }
 
-function SkillBar({ skill, i, theme, accent, key }: { skill: string; i: number; theme: CSSVariableMap; accent: string; key?: React.Key }) {
+function SkillBar({ skill, i, theme, accent }: { skill: string; i: number; theme: { bg: string; border: string; muted: string; }; accent: string }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true });
   const width = 65 + ((i * 13) % 35);

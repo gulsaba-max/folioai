@@ -8,7 +8,6 @@ import AuthPage from "./components/AuthPage";
 import LandingPage from "./components/LandingPage";
 import Dashboard from "./components/Dashboard";
 import InteractivePortfolio from "./components/InteractivePortfolio";
-import LivePreview from "./components/LivePreview";
 import { Layout } from "./components/Layout";
 import { Sidebar } from "./components/Sidebar";
 import { AppPanel, PanelType } from "./components/AppPanel";
@@ -196,13 +195,6 @@ export default function App() {
     if (liveLoading) return <div className="min-h-screen bg-bg-base text-text-muted font-sans text-sm flex items-center justify-center">Loading live site...</div>;
     if (liveError || !livePortfolio) return <div className="min-h-screen bg-bg-base text-error-main font-sans text-sm flex items-center justify-center">Error: {liveError || "Portfolio not found"}</div>;
     return <InteractivePortfolio portfolio={livePortfolio} isDemo={false} />;
-  }
-
-  // Render preview if on /preview/:portfolioId
-  const previewMatch = window.location.pathname.match(/^\/preview\/(.+)/);
-  if (previewMatch) {
-    const portfolioId = previewMatch[1];
-    return <LivePreview portfolioId={portfolioId} onClose={() => { window.location.href = "/"; }} />;
   }
 
   if (!currentUser) {

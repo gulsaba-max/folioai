@@ -5,11 +5,10 @@
 
 import React, { useState, useEffect } from "react";
 import { Portfolio } from "../types";
-import { getSectionLabels } from "./templates/templateUtils";
+import { PALETTE, getSectionLabels } from "./templates/templateUtils";
 import { TEMPLATE_REGISTRY, getTemplateBySlug } from "./templates/registry";
 import { getThemeById } from "./templates/design-tokens";
 import { Github, Linkedin, Twitter, Instagram } from "lucide-react";
-import { PortfolioThemeProvider, usePortfolioTheme } from "../context/PortfolioThemeContext";
 
 interface InteractivePortfolioProps {
   portfolio: Portfolio;
@@ -17,7 +16,7 @@ interface InteractivePortfolioProps {
   overrideMode?: 'light' | 'dark' | null;
 }
 
-function PortfolioRenderer({ portfolio, isDemo = false, overrideMode = null }: InteractivePortfolioProps) {
+export default function InteractivePortfolio({ portfolio, isDemo = false, overrideMode = null }: InteractivePortfolioProps) {
   const settings = portfolio.designSettings || {
     theme: "minimal",
     mode: "dark",
@@ -28,7 +27,7 @@ function PortfolioRenderer({ portfolio, isDemo = false, overrideMode = null }: I
     layoutReorder: ["hero", "about", "skills", "projects", "experience", "education", "contact"]
   };
 
-  const [activeMode, setActiveMode] = useState<'light' | 'dark'>(overrideMode || settings.mode || 'dark');
+  const [activeMode, setActiveMode] = useState<'light' | 'dark'>(overrideMode || settings.mode);
   const [visitorName, setVisitorName] = useState("");
   const [visitorEmail, setVisitorEmail] = useState("");
   const [visitorMsg, setVisitorMsg] = useState("");
@@ -36,7 +35,7 @@ function PortfolioRenderer({ portfolio, isDemo = false, overrideMode = null }: I
   const [formLoading, setFormLoading] = useState(false);
 
   useEffect(() => {
-    setActiveMode(overrideMode || (settings.mode as 'light' | 'dark') || 'dark');
+    setActiveMode(overrideMode || settings.mode);
   }, [settings.mode, overrideMode]);
 
   useEffect(() => {
@@ -79,11 +78,15 @@ function PortfolioRenderer({ portfolio, isDemo = false, overrideMode = null }: I
     }
   };
 
-  const theme = usePortfolioTheme();
-  const hue = theme.palette;
-  const labels = getSectionLabels(theme.industry.label.toLowerCase().replace(/\s+/g, '-'));
-  const sectionOrder = theme.sectionOrder;
-
+  const hue = PALETTE[settings.colorPalette] || PALETTE.indigo;
+  const isDark = activeMode === "dark";
+  const theme = settings.theme;
+  const sectionOrder = settings.layoutReorder || ["hero", "about", "skills", "projects", "experience", "education", "contact"];
+  
+  // @ts-ignore
+  const industry = settings.industry || "tech";
+  const labels = getSectionLabels(industry);
+  
   const socialLinks = [
     { key: 'github', url: portfolio.socialLinks?.github, Icon: Github },
     { key: 'linkedin', url: portfolio.socialLinks?.linkedin, Icon: Linkedin },
@@ -93,7 +96,7 @@ function PortfolioRenderer({ portfolio, isDemo = false, overrideMode = null }: I
 
   const sharedProps = {
     portfolio,
-    isDark: theme.isDark,
+    isDark,
     setActiveMode,
     socialLinks,
     handleSocialClick,
@@ -106,12 +109,11 @@ function PortfolioRenderer({ portfolio, isDemo = false, overrideMode = null }: I
     isDemo,
     hue,
     labels,
-    sectionOrder,
-    theme,
+    sectionOrder
   };
 
   const renderTemplate = () => {
-    const entry = getTemplateBySlug(settings.theme || 'minimal');
+    const entry = getTemplateBySlug(theme);
     const TemplateComponent = entry?.component;
     if (!TemplateComponent) return null;
     return <TemplateComponent {...sharedProps} />;
@@ -123,13 +125,5 @@ function PortfolioRenderer({ portfolio, isDemo = false, overrideMode = null }: I
         {renderTemplate()}
       </div>
     </div>
-  );
-}
-
-export default function InteractivePortfolio(props: InteractivePortfolioProps) {
-  return (
-    <PortfolioThemeProvider designSettings={props.portfolio.designSettings}>
-      <PortfolioRenderer {...props} />
-    </PortfolioThemeProvider>
   );
 }
