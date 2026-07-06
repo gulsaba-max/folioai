@@ -68,7 +68,7 @@ export default function App() {
       const slug = path.split("/p/")[1];
       if (!slug) return;
       setLiveLoading(true);
-      fetch(`/api/portfolio/get/${slug}`)
+      fetch(`${import.meta.env.VITE_API_URL}/api/portfolio/get/${slug}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.error) setLiveError(data.error);

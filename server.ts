@@ -10,12 +10,23 @@ import OpenAI from "openai";
 import { createServer as createViteServer } from "vite";
 import * as dotenv from "dotenv";
 import { spawn } from "child_process";
+import cors from "cors";
 
 dotenv.config();
 
 // Initialize express app
 const app = express();
 const PORT = 3000;
+
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://folioai-azure.vercel.app",
+    "https://folioai.onrender.com"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true
+}));
 
 // Body parsing
 app.use(express.json({ limit: '10mb' }));

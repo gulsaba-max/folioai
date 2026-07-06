@@ -139,11 +139,13 @@ export default function Dashboard(props: DashboardProps) {
 
 
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const fetchAnalytics = async () => {
     if (!activePortfolio?.id) return;
     setMetricsLoading(true);
     try {
-      const response = await fetch(`/api/analytics/${activePortfolio.id}`);
+      const response = await fetch(`${API_URL}/api/analytics/${activePortfolio.id}`);
       const data = await response.json();
       if (response.ok) {
         setMetrics(data.metrics || { pageViews: 0, socialClicks: 0, contactForms: 0 });
@@ -180,7 +182,7 @@ export default function Dashboard(props: DashboardProps) {
     }
 
     try {
-      const response = await fetch("/api/generate-portfolio", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      const response = await fetch(`${API_URL}/api/generate-portfolio`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Generation model failed");
       const generatedPort: Portfolio = {
@@ -220,7 +222,7 @@ export default function Dashboard(props: DashboardProps) {
     }
     setSaving(true); setSaveStatus("Publishing changes...");
     try {
-      const response = await fetch("/api/portfolio/save", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ portfolio: activePortfolio }) });
+      const response = await fetch(`${API_URL}/api/portfolio/save`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ portfolio: activePortfolio }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Save operation failed");
       onUpdatePortfolio(data.portfolio);
@@ -248,7 +250,7 @@ export default function Dashboard(props: DashboardProps) {
   const handleToggleMFA = async (enable: boolean) => {
     setMfaLoading(true);
     try {
-      const response = await fetch("/api/auth/mfa-toggle", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ userId: user.id, enabled: enable }) });
+      const response = await fetch(`${API_URL}/api/auth/mfa-toggle`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ userId: user.id, enabled: enable }) });
       const data = await response.json();
       if (response.ok) { setMfaActive(enable); setMfaSecret(data.user.mfaCodeSecret); }
     } catch (err: any) { toast('error', 'Update Failed', 'Could not update multi-factor profile'); }
@@ -260,7 +262,7 @@ export default function Dashboard(props: DashboardProps) {
     if (!connectDomainName || !connectDomainName.includes(".")) { toast('error', 'Invalid Domain', 'Enter a correct domain names string (example: domain.com)'); return; }
     setDomainVerifying(true); setDomainStatus("Resolving DNS target tags..."); setDomainSteps([]);
     try {
-      const response = await fetch("/api/domain/verify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ domain: connectDomainName, portfolioId: activePortfolio?.id || "temporary" }) });
+      const response = await fetch(`${API_URL}/api/domain/verify`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ domain: connectDomainName, portfolioId: activePortfolio?.id || "temporary" }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
       for (let i = 0; i < data.steps.length; i++) {
@@ -276,7 +278,7 @@ export default function Dashboard(props: DashboardProps) {
   const handleUpgradeTier = async (tier: 'free' | 'premium' | 'ultimate') => {
     setBillingLoading(true);
     try {
-      const response = await fetch("/api/billing/upgrade", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ userId: user.id, tier }) });
+      const response = await fetch(`${API_URL}/api/billing/upgrade`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ userId: user.id, tier }) });
       const data = await response.json();
       if (response.ok) { setActiveTier(tier); setBillingLogs(data.user.billingHistory); toast('success', 'Upgrade Successful', `Premium Upgrade simulated! Active Tier is now ${tier.toUpperCase()}.`); }
     } catch (err) { toast('error', 'Upgrade Failed', 'Billing simulation channel declined'); }

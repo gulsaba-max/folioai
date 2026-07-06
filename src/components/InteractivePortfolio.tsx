@@ -44,7 +44,7 @@ export default function InteractivePortfolio({ portfolio, isDemo = false, overri
       const os = ua.includes("Win") ? "Windows" : ua.includes("Mac") ? "macOS" : "Linux";
       const browser = ua.includes("Chrome") ? "Chrome" : ua.includes("Safari") ? "Safari" : "Firefox";
       const countries = ["United States", "United Kingdom", "Canada", "Germany", "Australia", "Singapore"];
-      fetch("/api/analytics/track", {
+      fetch(`${import.meta.env.VITE_API_URL}/api/analytics/track`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ portfolioId: portfolio.id, type: "pageview", country: countries[Math.floor(Math.random() * countries.length)], browser, os })
@@ -54,7 +54,7 @@ export default function InteractivePortfolio({ portfolio, isDemo = false, overri
 
   const handleSocialClick = (platform: string) => {
     if (!isDemo && portfolio.id) {
-      fetch("/api/analytics/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ portfolioId: portfolio.id, type: "social_click", country: "United States", browser: "Chrome", os: "macOS" }) }).catch(() => {});
+      fetch(`${import.meta.env.VITE_API_URL}/api/analytics/track`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ portfolioId: portfolio.id, type: "social_click", country: "United States", browser: "Chrome", os: "macOS" }) }).catch(() => {});
     }
   };
 
@@ -63,7 +63,7 @@ export default function InteractivePortfolio({ portfolio, isDemo = false, overri
     if (!visitorEmail || !visitorMsg) return;
     setFormLoading(true);
     try {
-      const response = await fetch(`/api/portfolio/${portfolio.id}/submit-message`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/portfolio/${portfolio.id}/submit-message`, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: visitorName || "Anonymous", email: visitorEmail, message: visitorMsg })
       });
