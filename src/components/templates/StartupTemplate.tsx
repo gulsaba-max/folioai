@@ -53,7 +53,7 @@ export default function StartupTemplate({
             style={{ background: accent }}>
             {portfolio.name?.charAt(0)}
           </div>
-          <span className="font-bold text-sm">{portfolio.name?.split(" ")[0]}</span>
+           <span className="font-bold text-sm">{(portfolio.name || "").split(" ")[0] || "Portfolio"}</span>
         </div>
         <div className="flex items-center gap-3">
           {socialLinks.map(({ key, url, Icon }) => (

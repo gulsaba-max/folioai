@@ -92,6 +92,7 @@ export default function EngineerTemplate({
   const activePalette = isDark ? theme.dark : theme.light;
   const rootStyle = cssVarToStyle(activePalette);
   const accent = hue.hex;
+  const firstName = (portfolio.name || "").split(' ')[0].toLowerCase() || "engineer";
 
   return (
     <div className="min-h-screen" style={{ ...rootStyle, fontFamily: "'Inter', sans-serif" }}>
@@ -106,7 +107,7 @@ export default function EngineerTemplate({
             <Code2 className="w-3 h-3 text-white" aria-hidden="true" />
           </div>
           <span className="text-sm font-bold" style={{ color: 'var(--theme-fg)' }}>
-            {portfolio.name?.split(' ')[0].toLowerCase()}<span style={{ color: accent }}>.engineer</span>
+             {firstName}<span style={{ color: accent }}>.engineer</span>
           </span>
         </div>
         <div className="hidden md:flex items-center gap-6">

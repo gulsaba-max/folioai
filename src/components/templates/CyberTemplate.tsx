@@ -38,6 +38,9 @@ export default function CyberTemplate({
 }: TemplateProps) {
   const neon = hue.hex;
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const name = portfolio.name || "";
+  const firstName = name.split(" ")[0] || "";
+  const restName = name.split(" ").slice(1).join(" ");
 
   return (
     <div className="min-h-screen bg-[#050508] text-slate-300 overflow-x-hidden relative" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -64,8 +67,8 @@ export default function CyberTemplate({
         <div className="flex items-center gap-3">
           <Terminal className="w-4 h-4" style={{ color: neon }} />
           <span className="text-sm font-bold tracking-[0.15em] uppercase font-mono" style={{ color: neon }}>
-            {portfolio.name?.split(" ")[0]}
-          </span>
+             {firstName}
+           </span>
           <span className="hidden md:inline text-[10px] text-slate-600 font-mono">// portfolio</span>
         </div>
         <div className="flex items-center gap-6">
@@ -95,11 +98,11 @@ export default function CyberTemplate({
             </span>
           </div>
           <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black text-white leading-none mb-4 tracking-tight">
-            {portfolio.name?.split(" ")[0]}
-            <br />
-            <span style={{ color: neon, textShadow: `0 0 60px ${neon}40` }}>
-              {portfolio.name?.split(" ").slice(1).join(" ")}
-            </span>
+             {firstName}
+             <br />
+             <span style={{ color: neon, textShadow: `0 0 60px ${neon}40` }}>
+               {restName}
+             </span>
           </h1>
           <p className="text-xl text-slate-400 mb-3 font-medium">{portfolio.title}</p>
           <p className="text-sm text-slate-500 leading-relaxed max-w-xl mb-8 font-sans">{portfolio.bio}</p>

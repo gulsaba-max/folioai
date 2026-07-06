@@ -43,6 +43,9 @@ export default function VibrantTemplate({
   const heroRef = useRef<HTMLElement>(null);
   const heroInView = useInView(heroRef, { once: true, margin: "-60px" });
 
+  const name = portfolio.name || "";
+  const firstName = name.split(" ")[0] || "";
+  const initials = name.split(" ").map(n => n[0]).slice(0, 2).join("");
   const bg = isDark ? themeMap.bg : themeMap.bg;
   const surface = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.7)';
   const borderColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
@@ -123,7 +126,7 @@ export default function VibrantTemplate({
 
       <header className="sticky top-0 z-40 border-b backdrop-blur-md" style={{ background: isDark ? 'rgba(8,8,23,0.88)' : 'rgba(250,250,255,0.88)', borderColor }}>
         <nav className="max-w-5xl mx-auto px-5 py-3 flex items-center justify-between" aria-label="Primary">
-          <span className="text-sm font-bold tracking-tight" style={{ color: `var(--theme-fg)` }}>{portfolio.name.split(" ")[0]}</span>
+          <span className="text-sm font-bold tracking-tight" style={{ color: `var(--theme-fg)` }}>{firstName}</span>
           <div className="hidden md:flex items-center gap-7">
             {sectionOrder.filter(s => ["skills","projects","experience","education"].includes(s)).map(s => (
               <a key={s} href={`#portfolio-${s}`} className="text-xs font-semibold hover:opacity-70 transition-opacity capitalize vibrant-focus-ring rounded-sm" style={{ color: `var(--theme-muted)` }}>{s}</a>
@@ -163,7 +166,7 @@ export default function VibrantTemplate({
                 </div>
               </div>
               <motion.div initial={reducedMotion ? {} : { opacity: 0, scale: 0.9 }} animate={reducedMotion ? {} : { opacity: 1, scale: 1 }} transition={{ delay: 0.25 }} className="w-32 h-32 md:w-40 md:h-40 rounded-full vibrant-avatar flex items-center justify-center text-3xl md:text-4xl font-extrabold text-white shadow-xl flex-shrink-0" aria-label={`${portfolio.name} avatar`}>
-                {portfolio.name.split(" ").map(n => n[0]).slice(0, 2).join("")}
+                 {initials}
               </motion.div>
             </div>
           </div>

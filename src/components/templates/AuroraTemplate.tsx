@@ -43,13 +43,14 @@ export default function AuroraTemplate({
 }: TemplateProps) {
   const statsRef = useRef<HTMLElement>(null);
   const statsInView = useInView(statsRef, { once: true, margin: "-80px" });
-  const ctas = useCountUp(Math.min(portfolio.projects.length * 3 + 4, 15), statsInView);
-  const ctay = useCountUp(Math.min(portfolio.experience.filter(e => e.startDate.length > 4).length + 1, 10), statsInView);
+  const ctas = useCountUp(Math.min((portfolio.projects?.length || 0) * 3 + 4, 15), statsInView);
+  const ctay = useCountUp(Math.min((portfolio.experience?.filter(e => e.startDate && e.startDate.length > 4).length || 0) + 1, 10), statsInView);
   const ctar = useCountUp(9999, statsInView);
-  const ctaw = useCountUp(portfolio.skills.length * 100 + 500, statsInView);
-  const reducedMotion = useReducedMotion();
-
+  const ctaw = useCountUp((portfolio.skills?.length || 0) * 100 + 500, statsInView);
+   const reducedMotion = useReducedMotion();
   const theme = getThemeById("aurora");
+  const firstName = (portfolio.name || "").split(" ")[0];
+   const initials = (portfolio.name || "").split(" ").map(n => n[0]).slice(0, 2).join("");
   const themeMap = isDark ? theme.dark : theme.light;
   const accent = hue.hex;
 

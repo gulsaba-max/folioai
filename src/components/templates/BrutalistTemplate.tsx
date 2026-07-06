@@ -82,7 +82,7 @@ export default function BrutalistTemplate({
         <div className="max-w-7xl mx-auto px-4 md:px-8 h-14 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="text-xs font-bold tracking-[0.2em] uppercase" style={{ color: accentHex }}>
-              {portfolio.name?.split(" ")[0].toUpperCase()}
+              {(portfolio.name?.split(" ")?.[0]?.toUpperCase() || portfolio.name?.toUpperCase() || "PORTFOLIO")}
             </span>
             <span className="text-xs hidden sm:inline" style={{ color: muted }}>BRUTALIST PORTFOLIO</span>
           </div>

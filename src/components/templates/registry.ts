@@ -17,6 +17,18 @@ import MonoLuxTemplate from './MonoLuxTemplate';
 import VibrantTemplate from './VibrantTemplate';
 import ArchitecturalGridTemplate from './ArchitecturalGridTemplate';
 import VintageModernTemplate from './VintageModernTemplate';
+import MinimalTemplate from './MinimalTemplate';
+import GlassTemplate from './GlassTemplate';
+import DeveloperTemplate from './DeveloperTemplate';
+import FuturisticTemplate from './FuturisticTemplate';
+import CreativeTemplate from './CreativeTemplate';
+import CorporateTemplate from './CorporateTemplate';
+import StartupTemplate from './StartupTemplate';
+import CyberpunkTemplate from './CyberpunkTemplate';
+import AgencyTemplate from './AgencyTemplate';
+import LuxuryTemplate from './LuxuryTemplate';
+import SlateTemplate from './SlateTemplate';
+import CyberTemplate from './CyberTemplate';
 
 export interface TemplateRegistryEntry {
   slug: string;
@@ -32,6 +44,150 @@ export interface TemplateRegistryEntry {
 }
 
 export const TEMPLATE_REGISTRY: TemplateRegistryEntry[] = [
+  {
+    slug: 'minimal',
+    name: 'Minimal',
+    description: 'Huge typography, lots of whitespace, elegant animations, sticky nav.',
+    idealFor: 'Designers, photographers, writers, and minimalists.',
+    component: MinimalTemplate,
+    paletteId: 'minimal',
+    fontDisplay: "'Inter', sans-serif",
+    fontBody: "'Inter', sans-serif",
+    fontMono: "'JetBrains Mono', monospace",
+    defaultMode: 'light'
+  },
+  {
+    slug: 'glass',
+    name: 'Glass',
+    description: 'Frosted glass cards, animated gradient blobs, floating UI, neon highlights.',
+    idealFor: 'UI designers, creative developers, modern SaaS founders.',
+    component: GlassTemplate,
+    paletteId: 'glass',
+    fontDisplay: "'Outfit', sans-serif",
+    fontBody: "'Outfit', sans-serif",
+    fontMono: "'JetBrains Mono', monospace",
+    defaultMode: 'dark'
+  },
+  {
+    slug: 'developer',
+    name: 'Developer',
+    description: 'Terminal hero, code snippets, repo-style cards, animated cursor.',
+    idealFor: 'Software engineers, backend developers, DevOps engineers.',
+    component: DeveloperTemplate,
+    paletteId: 'developer',
+    fontDisplay: "'Space Grotesk', sans-serif",
+    fontBody: "'Inter', sans-serif",
+    fontMono: "'JetBrains Mono', monospace",
+    defaultMode: 'dark'
+  },
+  {
+    slug: 'futuristic',
+    name: 'Futuristic',
+    description: 'Aurora background, floating particles, neon glow, animated grid, deep-space.',
+    idealFor: 'AI researchers, tech futurists, space-tech founders.',
+    component: FuturisticTemplate,
+    paletteId: 'futuristic',
+    fontDisplay: "'Space Grotesk', sans-serif",
+    fontBody: "'Inter', sans-serif",
+    fontMono: "'JetBrains Mono', monospace",
+    defaultMode: 'dark'
+  },
+  {
+    slug: 'creative',
+    name: 'Creative',
+    description: 'Large images, horizontal project gallery, oversized typography, animated text loop.',
+    idealFor: 'Art directors, illustrators, graphic designers.',
+    component: CreativeTemplate,
+    paletteId: 'creative',
+    fontDisplay: "'DM Sans', sans-serif",
+    fontBody: "'DM Sans', sans-serif",
+    fontMono: "'JetBrains Mono', monospace",
+    defaultMode: 'light'
+  },
+  {
+    slug: 'corporate',
+    name: 'Corporate',
+    description: 'Elegant navy theme, KPI counters, professional timeline, premium cards.',
+    idealFor: 'Executives, management consultants, enterprise professionals.',
+    component: CorporateTemplate,
+    paletteId: 'corporate',
+    fontDisplay: "'Inter', sans-serif",
+    fontBody: "'Inter', sans-serif",
+    fontMono: "'JetBrains Mono', monospace",
+    defaultMode: 'light'
+  },
+  {
+    slug: 'startup',
+    name: 'Startup',
+    description: 'Bento grid layout, startup metrics with counters, varied card sizes.',
+    idealFor: 'Startup founders, product managers, growth hackers.',
+    component: StartupTemplate,
+    paletteId: 'startup',
+    fontDisplay: "'Outfit', sans-serif",
+    fontBody: "'Outfit', sans-serif",
+    fontMono: "'JetBrains Mono', monospace",
+    defaultMode: 'dark'
+  },
+  {
+    slug: 'cyberpunk',
+    name: 'Cyberpunk',
+    description: 'Neon colors, matrix rain, glitch text, animated borders, scan-line overlay.',
+    idealFor: 'Game devs, blockchain devs, cyber-security engineers.',
+    component: CyberpunkTemplate,
+    paletteId: 'cyberpunk',
+    fontDisplay: "'Space Grotesk', monospace",
+    fontBody: "'Space Grotesk', monospace",
+    fontMono: "'JetBrains Mono', monospace",
+    defaultMode: 'dark'
+  },
+  {
+    slug: 'agency',
+    name: 'Agency',
+    description: 'Fullscreen sections, bold editorial typography, hover image reveals, diagonal layouts.',
+    idealFor: 'Creative agencies, branding studios, marketing teams.',
+    component: AgencyTemplate,
+    paletteId: 'agency',
+    fontDisplay: "'Cormorant Garamond', serif",
+    fontBody: "'Inter', sans-serif",
+    fontMono: "'JetBrains Mono', monospace",
+    defaultMode: 'light'
+  },
+  {
+    slug: 'luxury',
+    name: 'Luxury',
+    description: 'Cinematic hero, gold accent, Cormorant Garamond, ultra-premium spacing.',
+    idealFor: 'Luxury brands, high-end services, premium professionals.',
+    component: LuxuryTemplate,
+    paletteId: 'luxury',
+    fontDisplay: "'Cormorant Garamond', Georgia, serif",
+    fontBody: "'Inter', sans-serif",
+    fontMono: "'JetBrains Mono', monospace",
+    defaultMode: 'light'
+  },
+  {
+    slug: 'slate',
+    name: 'Slate',
+    description: 'Sophisticated dark sidebar with glassmorphism, sticky nav, clean content.',
+    idealFor: 'Developers, designers, writers who love clean layouts.',
+    component: SlateTemplate,
+    paletteId: 'slate',
+    fontDisplay: "'DM Sans', sans-serif",
+    fontBody: "'DM Sans', sans-serif",
+    fontMono: "'JetBrains Mono', monospace",
+    defaultMode: 'light'
+  },
+  {
+    slug: 'cyber',
+    name: 'Cyber',
+    description: 'Neon-drenched terminal aesthetic with glitch effects and scanlines.',
+    idealFor: 'Security engineers, game devs, crypto builders.',
+    component: CyberTemplate,
+    paletteId: 'cyber',
+    fontDisplay: "'Space Grotesk', monospace",
+    fontBody: "'Space Grotesk', monospace",
+    fontMono: "'JetBrains Mono', monospace",
+    defaultMode: 'dark'
+  },
   {
     slug: 'editorial',
     name: 'Editorial',
