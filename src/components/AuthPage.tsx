@@ -154,7 +154,7 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
   : `${API_URL}/api/auth/login`;
 
     try {
-      const response = await fetch(`${API_URL}/api/auth/mfa-verify`, { {
+      const response = await fetch(`${API_URL}/api/auth/mfa-verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
