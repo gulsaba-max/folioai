@@ -12,7 +12,7 @@ Transform Your Resume into a Professional Portfolio Website with AI Agents
 
 **Try FolioAI Live:**
 
-https://folioai-azure.vercel.app/
+https://folioai-azure.vercel.app
 
 ## Tech Stack
 
