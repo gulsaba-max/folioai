@@ -196,13 +196,13 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
 
     setLoading(true);
     try {
-       const response = await fetch(`${API_URL}/api/auth/mfa-verify`, {
+      const response = await fetch(`${API_URL}/api/auth/mfa-verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: pendingUserId, code: mfaCode })
+        body: JSON.stringify({ userId: pendingUserId, code: mfaCode }),
       });
-
       const data = await response.json();
+
       if (!response.ok) {
         throw new Error(data.error || "MFA validation failed");
       }
