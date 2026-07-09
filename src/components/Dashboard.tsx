@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -124,6 +124,18 @@ export default function Dashboard(props: DashboardProps) {
   const [mfaActive, setMfaActive] = useState(user.mfaEnabled);
   const [mfaSecret, setMfaSecret] = useState(user.mfaCodeSecret);
   const [mfaLoading, setMfaLoading] = useState(false);
+
+  // Analytics states
+  const [metrics, setMetrics] = useState({ pageViews: 0, socialClicks: 0, contactForms: 0 });
+  const [metricsLoading, setMetricsLoading] = useState(false);
+  const [countries, setCountries] = useState<any[]>([]);
+  const [browsers, setBrowsers] = useState<any[]>([]);
+  const [timeline, setTimeline] = useState<any[]>([]);
+
+  // Billing states
+  const [activeTier, setActiveTier] = useState<'free' | 'premium' | 'ultimate'>(user.subscriptionTier || 'free');
+  const [billingLoading, setBillingLoading] = useState(false);
+  const [billingLogs, setBillingLogs] = useState<any[]>(user.billingHistory || []);
 
   const API_URL = import.meta.env.VITE_API_URL;
 

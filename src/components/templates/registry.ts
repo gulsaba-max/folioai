@@ -36,7 +36,7 @@ export interface TemplateRegistryEntry {
   description: string;
   idealFor: string;
   component: LazyExoticComponent<FC<unknown>> | (() => null);
-  paletteId: ThemeId;
+  paletteId: string;
   fontDisplay: string;
   fontBody: string;
   fontMono: string;

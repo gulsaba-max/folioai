@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from "react";
-import { Sparkles, Send, Bot, Check, HelpCircle, X, ShieldAlert } from "lucide-react";
+import { Sparkles, Send, Bot, Check, HelpCircle, X, ShieldAlert, ChevronLeft } from "lucide-react";
 
 interface AIAssistantModalProps {
   currentPortfolio: any;
@@ -64,6 +64,13 @@ export default function AIAssistantModal({ currentPortfolio, onUpdatePortfolio, 
       {/* Sidebar Header */}
       <div className="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
         <div className="flex items-center gap-2">
+          <button 
+            onClick={onClose}
+            className="p-1 hover:bg-slate-800 rounded-lg transition-colors text-slate-400 hover:text-text-main flex items-center gap-1"
+            title="Go Back"
+          >
+            <ChevronLeft className="w-4.5 h-4.5" />
+          </button>
           <div className="p-1.5 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
             <Bot className="w-4 h-4 text-emerald-400" />
           </div>
@@ -75,6 +82,7 @@ export default function AIAssistantModal({ currentPortfolio, onUpdatePortfolio, 
         <button 
           onClick={onClose}
           className="p-1.5 hover:bg-slate-800 rounded-lg transition-colors text-slate-400 hover:text-text-main"
+          title="Close Panel"
         >
           <X className="w-4 h-4" />
         </button>

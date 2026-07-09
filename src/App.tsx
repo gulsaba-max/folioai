@@ -210,7 +210,7 @@ export default function App() {
   if (!currentUser) {
     return (
       <Layout currentUser={null} onGetStarted={() => setShowAuth(true)} onLogout={handleLogout} onOpenPanel={setActivePanel}>
-        <AppPanel open={activePanel} onClose={() => setActivePanel(null)} currentUser={null} theme={theme} onThemeChange={updateTheme} />
+        <AppPanel open={activePanel} onClose={() => setActivePanel(null)} currentUser={null} theme={theme} onThemeChange={updateTheme} onLogout={handleLogout} />
         {!showAuth ? (
           <LandingPage onGetStarted={() => setShowAuth(true)} onOpenPanel={setActivePanel} onTryDemo={handleTryDemo} />
         ) : (
@@ -222,7 +222,7 @@ export default function App() {
 
   return (
     <Layout currentUser={currentUser} onGetStarted={() => setShowAuth(true)} onLogout={handleLogout} onOpenPanel={setActivePanel}>
-      <AppPanel open={activePanel} onClose={() => setActivePanel(null)} currentUser={currentUser} theme={theme} onThemeChange={updateTheme} />
+      <AppPanel open={activePanel} onClose={() => setActivePanel(null)} currentUser={currentUser} theme={theme} onThemeChange={updateTheme} onLogout={handleLogout} />
       {isDemoMode && (
         <div className="fixed top-[72px] left-0 right-0 z-40 bg-amber-50 border-b border-amber-200 text-amber-800 text-xs font-bold uppercase tracking-wider text-center py-2">
           Demo Mode – Changes are not saved.

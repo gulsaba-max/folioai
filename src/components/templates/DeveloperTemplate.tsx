@@ -65,7 +65,7 @@ function TerminalHero({ name, title, email, theme, accent }: { name: string; tit
         {lines.map((line, i) => (
           <div key={i} className="mb-1 leading-relaxed">
             {displayed[i] !== undefined ? (
-              <span style={{ color: line.startsWith("$") ? theme.accent : line.startsWith("→") ? theme.fg : theme.fg }}>
+              <span style={{ color: line.startsWith("$") ? accent : line.startsWith("→") ? theme.fg : theme.fg }}>
                 {displayed[i]}
                 {i === displayed.length - 1 && <span className="animate-pulse ml-0.5" style={{ color: theme.fg }}>▌</span>}
               </span>
@@ -77,7 +77,7 @@ function TerminalHero({ name, title, email, theme, accent }: { name: string; tit
   );
 }
 
-function SkillBar({ skill, i, theme, accent }: { skill: string; i: number; theme: { bg: string; border: string; muted: string; }; accent: string }) {
+function SkillBar({ skill, i, theme, accent }: { key?: any; skill: string; i: number; theme: any; accent: string }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true });
   const width = 65 + ((i * 13) % 35);

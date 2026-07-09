@@ -833,6 +833,43 @@ app.post("/api/billing/upgrade", (req, res) => {
   res.json({ success: true, user: db.users[userIndex], message: `Successfully upgraded to ${tier} tier!` });
 });
 
+// Delete user account and associated portfolios
+app.post("/api/auth/delete-account", (req, res) => {
+  const { userId } = req.body;
+  const db = readDb();
+
+  const userIndex = db.users.findIndex((u: any) => u.id === userId);
+  if (userIndex === -1) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  db.portfolios = db.portfolios.filter((p: any) => p.userId !== userId);
+  db.users.splice(userIndex, 1);
+
+  writeDb(db);
+  res.json({ success: true, message: "Account and associated portfolios deleted successfully." });
+});
+
+// Update social connection status for a user
+app.post("/api/auth/connect-social", (req, res) => {
+  const { userId, platform, connect } = req.body;
+  const db = readDb();
+
+  const userIndex = db.users.findIndex((u: any) => u.id === userId);
+  if (userIndex === -1) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  if (!db.users[userIndex].socialConnections) {
+    db.users[userIndex].socialConnections = {};
+  }
+
+  db.users[userIndex].socialConnections[platform] = connect;
+
+  writeDb(db);
+  res.json({ success: true, user: db.users[userIndex] });
+});
+
 // Simulated Dynamic Social Media Integration Feeds Proxy API
 app.get("/api/social-feed/:platform/:handle", (req, res) => {
   const { platform, handle } = req.params;

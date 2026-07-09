@@ -195,7 +195,7 @@ export const THEME_DEFS: ThemeDefinition[] = [
   }
 ];
 
-export function getThemeById(id: ThemeId): ThemeDefinition {
+export function getThemeById(id: string): ThemeDefinition {
   return THEME_DEFS.find(t => t.id === id) ?? THEME_DEFS[0];
 }
 

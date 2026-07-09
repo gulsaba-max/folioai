@@ -55,7 +55,7 @@ function Badge({ color, children }: { color: string; children: React.ReactNode }
 }
 
 /* ─────────────────────────── SETTINGS ─────────────────────────── */
-function SettingsPanel({ user, theme, onThemeChange }: { user: any, theme?: 'light' | 'dark', onThemeChange?: (theme: 'light' | 'dark') => void }) {
+function SettingsPanel({ user, theme, onThemeChange, onLogout }: { user: any, theme?: 'light' | 'dark', onThemeChange?: (theme: 'light' | 'dark') => void, onLogout?: () => void }) {
   const [emailNotifs, setEmailNotifs] = useState(true);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
@@ -65,6 +65,27 @@ function SettingsPanel({ user, theme, onThemeChange }: { user: any, theme?: 'lig
   const [marketingEmails, setMarketingEmails] = useState(false);
   const [twoFa, setTwoFa] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+
+  const handleDeleteAccount = async () => {
+    if (!window.confirm("Are you absolutely sure you want to delete your account? This will permanently remove all your portfolios. This action cannot be undone.")) {
+      return;
+    }
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/delete-account`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user?.id })
+      });
+      if (response.ok) {
+        alert("Your account has been deleted.");
+        onLogout?.();
+      } else {
+        alert("Failed to delete account.");
+      }
+    } catch (err: any) {
+      alert("Error: " + err.message);
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -173,7 +194,7 @@ function SettingsPanel({ user, theme, onThemeChange }: { user: any, theme?: 'lig
             <div>
               <p className="text-sm font-semibold text-text-main mb-1">Delete Account</p>
               <p className="text-xs text-text-muted mb-3">Permanently delete your account and all associated portfolios. This action cannot be undone.</p>
-              <button onClick={() => alert('Feature coming soon! (Backend integration pending)')} className="text-xs font-medium text-red-600 border border-red-200 bg-red-50 px-3 py-1.5 rounded-lg hover:bg-red-100 transition-colors">Delete My Account</button>
+              <button onClick={handleDeleteAccount} className="text-xs font-medium text-red-600 border border-red-200 bg-red-50 px-3 py-1.5 rounded-lg hover:bg-red-100 transition-colors">Delete My Account</button>
             </div>
           </div>
         </div>
@@ -200,18 +221,24 @@ function HelpPanel() {
         <SectionHeading>Quick Links</SectionHeading>
         <div className="grid grid-cols-2 gap-3">
           {[
-            { icon: BookOpen, label: 'Documentation', desc: 'Full API & usage docs' },
-            { icon: Github, label: 'GitHub', desc: 'View source & contribute' },
-            { icon: Mail, label: 'Email Support', desc: 'support@folioai.tech' },
-            { icon: Twitter, label: 'Community', desc: '@folioai on Twitter/X' },
-          ].map(({ icon: Icon, label, desc }) => (
-            <button onClick={() => alert('Feature coming soon! (Backend integration pending)')} key={label} className="bg-white border border-border-subtle rounded-2xl shadow-sm p-4 text-left flex flex-col gap-2 hover:shadow-md hover:-translate-y-1 hover:scale-[1.01] cursor-pointer">
+            { icon: BookOpen, label: 'Documentation', desc: 'Full API & usage docs', href: 'https://docs.folioai.tech', external: true },
+            { icon: Github, label: 'GitHub', desc: 'View source & contribute', href: 'https://github.com/gulsaba-max/folioai', external: true },
+            { icon: Mail, label: 'Email Support', desc: 'support@folioai.tech', href: 'mailto:support@folioai.tech', external: false },
+            { icon: Twitter, label: 'Community', desc: '@folioai on Twitter/X', href: 'https://x.com/folioai', external: true },
+          ].map(({ icon: Icon, label, desc, href, external }) => (
+            <a
+              key={label}
+              href={href}
+              target={external ? "_blank" : undefined}
+              rel={external ? "noopener noreferrer" : undefined}
+              className="bg-white border border-border-subtle rounded-2xl shadow-sm p-4 text-left flex flex-col gap-2 hover:shadow-md hover:-translate-y-1 hover:scale-[1.01] cursor-pointer transition-all"
+            >
               <Icon className="w-5 h-5 text-primary" />
               <div>
                 <p className="text-sm font-semibold text-text-main">{label}</p>
                 <p className="text-xs text-text-muted">{desc}</p>
               </div>
-            </button>
+            </a>
           ))}
         </div>
       </div>
@@ -417,6 +444,34 @@ function PrivacyPanel() {
 /* ─────────────────────────── PROFILE ─────────────────────────── */
 function ProfilePanel({ user }: { user: any }) {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [connections, setConnections] = useState<Record<string, boolean>>(user?.socialConnections || {});
+
+  const handleConnect = async (platform: string) => {
+    const isCurrentlyConnected = !!connections[platform];
+    const nextStatus = !isCurrentlyConnected;
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/connect-social`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user?.id, platform, connect: nextStatus })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setConnections(data.user.socialConnections || {});
+        const stored = localStorage.getItem("folioai_user");
+        if (stored) {
+          const u = JSON.parse(stored);
+          u.socialConnections = data.user.socialConnections;
+          localStorage.setItem("folioai_user", JSON.stringify(u));
+        }
+      } else {
+        alert("Failed to update connection.");
+      }
+    } catch (err: any) {
+      alert("Error: " + err.message);
+    }
+  };
   return (
     <div className="space-y-6">
       {/* Avatar */}
@@ -477,17 +532,24 @@ function ProfilePanel({ user }: { user: any }) {
         <SectionHeading>Connected Accounts</SectionHeading>
         <div className="bg-white border border-border-subtle rounded-2xl shadow-sm divide-y divide-border-subtle">
           {[
-            { icon: Github, name: 'GitHub', status: false },
-            { icon: Linkedin, name: 'LinkedIn', status: false },
-            { icon: Twitter, name: 'Twitter / X', status: false },
-          ].map(({ icon: Icon, name, status }) => (
-            <Row key={name} label={name}>
-              {status
-                ? <><Badge color="green">Connected</Badge></>
-                : <button onClick={() => alert('Feature coming soon! (Backend integration pending)')} className="text-xs font-medium text-primary border border-primary/20 px-3 py-1 rounded-lg hover:bg-primary/5 transition-colors">Connect</button>
-              }
-            </Row>
-          ))}
+            { icon: Github, name: 'GitHub', key: 'github' },
+            { icon: Linkedin, name: 'LinkedIn', key: 'linkedin' },
+            { icon: Twitter, name: 'Twitter / X', key: 'twitter' },
+          ].map(({ icon: Icon, name, key }) => {
+            const isConnected = !!connections[key];
+            return (
+              <Row key={name} label={name}>
+                {isConnected ? (
+                  <div className="flex items-center gap-2">
+                    <Badge color="green">Connected</Badge>
+                    <button onClick={() => handleConnect(key)} className="text-[10px] text-red-500 hover:underline">Disconnect</button>
+                  </div>
+                ) : (
+                  <button onClick={() => handleConnect(key)} className="text-xs font-medium text-primary border border-primary/20 px-3 py-1 rounded-lg hover:bg-primary/5 transition-colors">Connect</button>
+                )}
+              </Row>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -504,13 +566,13 @@ const panelConfig: Record<NonNullable<PanelType>, { title: string; icon: any }> 
   profile:  { title: 'Your Profile',  icon: User        },
 };
 
-export function AppPanel({ open, onClose, currentUser, theme, onThemeChange }: AppPanelProps & { theme?: 'light' | 'dark', onThemeChange?: (theme: 'light' | 'dark') => void }) {
+export function AppPanel({ open, onClose, currentUser, theme, onThemeChange, onLogout }: AppPanelProps & { theme?: 'light' | 'dark', onThemeChange?: (theme: 'light' | 'dark') => void, onLogout?: () => void }) {
   if (!open) return null;
   const config = panelConfig[open];
 
   const renderContent = () => {
     switch (open) {
-      case 'settings': return <SettingsPanel user={currentUser} theme={theme} onThemeChange={onThemeChange} />;
+      case 'settings': return <SettingsPanel user={currentUser} theme={theme} onThemeChange={onThemeChange} onLogout={onLogout} />;
       case 'help':     return <HelpPanel />;
       case 'about':    return <AboutPanel />;
       case 'docs':     return <DocsPanel />;
